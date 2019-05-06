@@ -36,6 +36,14 @@
 #include <Wire.h>
 #include "Arduino.h"
 #include "FreeflyAPI.h"
+#include "MPU6050_6Axis_MotionApps20.h"
+MPU6050 mpu;
+char readData[30];
+char IMU;
+bool started = false;
+bool ended = false;
+
+byte i;
 
 // Define variables and constants
 uint8_t UART_Tx_Buf[64];
@@ -75,8 +83,13 @@ unsigned int laserPin = 3; //output pin for laser control
 unsigned long lastTime = 0;
 unsigned long currentTime = 0;
 unsigned long currentTime2 = 0;
+unsigned long currentTime3 = 0; //checking serial vs real time IMU lag
 double integral = 0;
 double integral2 = 0;
+String yaw;
+String pitch;
+String roll;
+
 
 union xAzimuth {
   byte b[4];
@@ -97,6 +110,11 @@ void setup() {
   pinMode(laserPin, OUTPUT);
   Serial.begin(115200);           // start serial for output
   Serial1.begin(111111);  // Aux serial port for control
+  //-------------------------------------------------------------------------------
+  Serial2.begin(115200); // serial port to read IMU from UNO board
+  while (!Serial2); // wait for Leonardo enumeration, others continue immediately
+  Serial2.print('j'); //sends character to IMU to begin initialization/startup
+  //-------------------------------------------------------------------------------
   FreeflyAPI.begin();
   Serial.println("ATMega Initialized");
 }
@@ -106,18 +124,8 @@ void loop() {
   counter = millis();
   timer = counter;
   digitalWrite(laserPin, LOW);
- // if (digitalRead(triggerPin) == LOW) {
- //   if (trigger == 0) {
- //     Serial.println("Trigger fired");
-  //  }
-   // trigger = 1;
-   // triggerCounter = 0;
-   // digitalWrite(laserPin, HIGH);
- // }
- // else {
-   // digitalWrite(laserPin, LOW);
-   // trigger = 0;
-  //}
+
+  readIMU(); // read the latest IMU data
 
   if (counter % 10 == 0) { //slow down the output to gimbal
     counter = 0;
@@ -207,7 +215,13 @@ void loop() {
             
         //  }
         
-          Serial.println(y.fval);
+          currentTime3 = millis();
+          Serial.print(currentTime3);
+          Serial.print('\t');
+          Serial.print(y.fval);
+          Serial.print("\t");
+          Serial.println(readData);
+          
           FreeflyAPI.control.pan.value = panCommandValue;
           FreeflyAPI.control.tilt.value = tiltCommandValue;
          if ((x.fval<250 and x.fval>-250) and (y.fval<250 and y.fval>-250)) {
@@ -401,4 +415,34 @@ void receiveEvent(int howMany) {
   }
 }
 
-//----------------------------------------------------------------------------
+//------------------------------read IMU function-----------------------------------------
+void readIMU() {
+  while(Serial2.available() > 0){
+    IMU = Serial2.read(); //gets one  byte from serial buffer
+    if(IMU == 'p') {
+      i=0;
+      readData[i] = '\0';
+      started = true;
+      ended = false;
+    }
+    else if (IMU == 'y') {
+      ended = true;
+      break;
+    }
+    else {
+      if(i<30) {
+        readData[i] = IMU;
+        i++;
+        //readData[i] = '\0'; //I dont' know if this is necessary
+     }
+    }
+  }
+if(started && ended) {
+  //reset for next packet
+  started = false;
+  ended = false;
+  readData[i] = '\0';
+  i = 0;
+  
+}
+}
