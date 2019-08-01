@@ -45,9 +45,8 @@ void setup() {
   pinMode(tiltPin, INPUT);
   pinMode(tagPin, INPUT);
   pinMode(zoomPin, INPUT);
-  Serial.begin(115200);   // output to serial monitor on PC
+  Serial.begin(115200);   // Pi connection
   Serial1.begin(111111);  // output to MoVI aux input
-  Serial2.begin(115200);  // input/output to/from Raspberry Pi (pins 16(rx) and 17(tx))
   FreeflyAPI.begin();
   Serial.println("ATMega Initialized");
 }
