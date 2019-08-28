@@ -1,5 +1,6 @@
-int incoming = 0;
-String content = "";
+int incoming[3];
+String content;
+char testing[15];
 char character;
 
 void setup() {
@@ -12,12 +13,22 @@ void setup() {
 
 void loop() {
   while (Serial.available() > 0) { //read from PC serial monitor
-      character = Serial.read();
-      content.concat(character);
-    }
-
-    if (content != "") {
-      Serial.print(content);
-      content = "";
-    }
+        for(int i=0; i<15; i++) {
+          testing[i] = Serial.read();
+        }
+        testing[15] = '\0';  //append null
+        Serial.print(testing); 
+        
+        
+//        if(character == '\n') {
+//          Serial.print("Received: ");
+//          Serial.print(content);
+//          content = "";
+//        }
   }
+
+  
+  
+  //Serial.print("Serial received: ");
+  //Serial.println(incoming[]);
+}
