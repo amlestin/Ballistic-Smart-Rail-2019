@@ -18,6 +18,15 @@ Xoffset = 0 #global ints
 Yoffset = 0
 trackingStatus = 0
 frame = None #I suspect this is needed since frame isn't declared before the displayFrame class is instantiated
+timeCheckA=[]
+timeCheckB=[]
+timeCheckC=[]
+timeCheckD=[]
+i=0
+avgTimeA=0
+avgTimeB=0
+avgTimeC=0
+avgTimeD=0
 
 # serial connection to the Arduino
 arduino = serial.Serial('/dev/ttyUSB0', 115200)
@@ -69,7 +78,11 @@ while True:
 	for x in range(15): #count 15 frames
     
 		# grab the current frame
+		time1=time.time()
 		frame = vs.read()
+		timeCheckA.insert(i,int((time.time()-time1)*1000))
+		avgTimeA=(sum(timeCheckA))/(len(timeCheckA))
+		print("Avg FrameRead Time: {:.4f}ms".format(avgTimeA))
 		f.update() #increment frame counter
 
 		# handle the frame from VideoCapture or VideoStream
@@ -83,6 +96,7 @@ while True:
 		# resize the frame, blur it, and convert it to the HSV
 		# color space
 		#frame = imutils.resize(frame, width=600) #moved this to its own threaded module to increase speed
+		time2=time.time()
 		blurred = cv2.GaussianBlur(frame, (11, 11), 0)
 		hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
@@ -99,7 +113,13 @@ while True:
 			cv2.CHAIN_APPROX_SIMPLE)
 		cnts = imutils.grab_contours(cnts)
 		center = None
+		#timeCheck2=(time.time()-time2)
+		timeCheckB.insert(i,int((time.time()-time2)*1000))
+		avgTimeB=(sum(timeCheckB))/(len(timeCheckB))
+		print("Avg ImgProcess Time: {:.2f}ms".format(avgTimeB))
+		#print("ImgProcess Time:{:.2f}ms".format(timeCheck2*1000))
 
+		time3=time.time()
 		# only proceed if at least one contour was found
 		if len(cnts) > 0:
 			# find the largest contour in the mask, then use
@@ -126,20 +146,35 @@ while True:
 				
 				#cv2.putText(frame, currentFPSstr, (30,50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
 				#cv2.putText(frame, averageFPSstr, (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 2)
-				print(currentFPSstr)
+				#print(currentFPSstr)
 				f.stop()
 				currentFPS = f.fps()
+
 		else:
 			trackingStatus = 0
 	
 		offsetStr = "[{:0.3f}, {:0.3f}, {}]".format(Xoffset, Yoffset, trackingStatus)
-		print(offsetStr)
+		#print(offsetStr)
+		#timeCheck3=(time.time()-time3)
+		#print("Draw Time:       {:.2f}ms".format(timeCheck3*1000))
+		timeCheckC.insert(i,int((time.time()-time3)*1000))
+		avgTimeC=(sum(timeCheckC))/(len(timeCheckC))
+		print("Avg Draw Time: {:.2f}ms".format(avgTimeC))
 		
 		arduino.write(offsetStr.encode())
 
 		#resize/display frame in separate thread (to keep from blocking main loop from going back for another one ASAP since imshow is normally blocking)
+		time4=time.time()
 		df.update(frame,) #(display frame). Comma appended because np array
+		timeCheckD.insert(i,int((time.time()-time4)*1000)) #there's probably a better way, but working with lists in Python is weird and I'm not very good at it
+		avgTimeD=(sum(timeCheckD))/(len(timeCheckD))
+		print("Avg DispFrame Time:{:.2f}ms".format(avgTimeD))
+		print("Total Time: {:.2f}ms".format((time.time()-time1)*1000))
 
+		if(i>4):
+			i=0
+		else:
+			i=i+1
 		# show the frame to our screen
 		#frame = imutils.resize(frame, width=600)
 		#cv2.imshow("Frame", frame)
