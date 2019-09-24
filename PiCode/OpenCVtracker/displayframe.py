@@ -3,21 +3,35 @@
 from threading import Thread
 import cv2
 import imutils
+import numpy
 #will I need numpy?
 
 class displayFrame:
-	def __init__(self):
-		self.frame = None
+	def __init__(self, frame=None):
+		self.frame = frame
 		self.stopped = False #indicates if thread should be stopped
 		
 	def start(self):
-		t = Thread(target=self.update, args=())
+		t = Thread(target=self.show, args=())
 		t.daemon = True
 		t.start()
 		return self
 		
-	def update(self, frame):
-			frame = imutils.resize(frame, width=600)
-			cv2.imshow("Scope View", frame)
-			key = cv2.waitKey(1) & 0xFF
-			return
+	def show(self):
+		while not self.stopped:
+			try:
+				self.frame = imutils.resize(self.frame, width=1000)
+				cv2.imshow("Scope View", self.frame)
+			except:
+				pass
+			if cv2.waitKey(1) == ord("q"):
+				self.stopped = True
+
+	def stop(self):
+		self.stopped = True
+		
+	def setFrame(self, value):
+		self.frame = value
+
+	def getFrame(self):
+		return self.frame

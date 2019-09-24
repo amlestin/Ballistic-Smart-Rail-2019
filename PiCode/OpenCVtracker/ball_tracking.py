@@ -13,6 +13,7 @@ import imutils
 import time
 import serial
 import struct
+import threading
 
 Xoffset = 0 #global ints
 Yoffset = 0
@@ -56,8 +57,10 @@ resLength = 240
 
 if not args.get("video", False):
 	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() #awb_mode=sunlight works well for tracking green object
+	frame = vs.read()
 	df = displayFrame().start() #instantiate frame display thread (using a comma inside the argument parentheses because frame is an np array)
-
+	
+	
 # otherwise, grab a reference to the video file
 else:
 	vs = cv2.VideoCapture(args["video"])
@@ -144,9 +147,9 @@ while True:
 				Xoffset = float((x-(resWidth/2))/(resWidth/2)) #float representing distance from screen center to face center
 				Yoffset = float(((resLength/2)-int(y))/(resLength/2))
 				
-				#cv2.putText(frame, currentFPSstr, (30,50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
+				cv2.putText(frame, currentFPSstr, (30,50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
 				#cv2.putText(frame, averageFPSstr, (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 2)
-				#print(currentFPSstr)
+				print("FPS: " + currentFPSstr)
 				f.stop()
 				currentFPS = f.fps()
 
@@ -165,7 +168,8 @@ while True:
 
 		#resize/display frame in separate thread (to keep from blocking main loop from going back for another one ASAP since imshow is normally blocking)
 		time4=time.time()
-		df.update(frame,) #(display frame). Comma appended because np array
+		df.setFrame(frame)
+		#print("df.frame type:"+str(type(df.frame)))
 		timeCheckD.insert(i,int((time.time()-time4)*1000)) #there's probably a better way, but working with lists in Python is weird and I'm not very good at it
 		avgTimeD=(sum(timeCheckD))/(len(timeCheckD))
 		print("Avg DispFrame Time:{:.2f}ms".format(avgTimeD))
