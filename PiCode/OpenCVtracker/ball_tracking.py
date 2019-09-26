@@ -5,7 +5,7 @@
 # import the necessary packages
 from imutils.video import VideoStream
 from imutils.video import FPS
-from imutils.video import displayFrame #custom threaded module
+from imutils.video import DisplayFrame #custom threaded class
 import numpy as np
 import argparse
 import cv2
@@ -58,7 +58,7 @@ resLength = 240
 if not args.get("video", False):
 	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() #awb_mode=sunlight works well for tracking green object
 	frame = vs.read()
-	df = displayFrame().start() #instantiate frame display thread (using a comma inside the argument parentheses because frame is an np array)
+	df = DisplayFrame().start() #instantiate frame display thread (using a comma inside the argument parentheses because frame is an np array)
 	
 	
 # otherwise, grab a reference to the video file
@@ -123,32 +123,7 @@ while True:
 		#print("ImgProcess Time:{:.2f}ms".format(timeCheck2*1000))
 
 		time3=time.time()
-		# only proceed if at least one contour was found
-		if len(cnts) > 0:
-			# find the largest contour in the mask, then use
-			# it to compute the minimum enclosing circle and
-			# centroid
-			trackingStatus = 1
-			c = max(cnts, key=cv2.contourArea)
-			((x, y), radius) = cv2.minEnclosingCircle(c)
-			M = cv2.moments(c)
-			center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-			
-
-			# only proceed if the radius meets a minimum size
-			if radius > 10:
-				# draw the circle and centroid on the frame,
-				# then update the list of tracked points
-				# then print x/y offset from center and FPS -Jesse Moody
-				cv2.circle(frame, (int(x), int(y)), int(radius),
-					(0, 255, 255), 2)
-				cv2.circle(frame, center, 5, (0, 0, 255), -1)
-				
-				Xoffset = float((x-(resWidth/2))/(resWidth/2)) #float representing distance from screen center to face center
-				Yoffset = float(((resLength/2)-int(y))/(resLength/2))
-				
-				cv2.putText(frame, currentFPSstr, (30,50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 1)
-				#cv2.putText(frame, averageFPSstr, (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 2)
+		frame = Hud.draw()
 				print("FPS: " + currentFPSstr)
 				f.stop()
 				currentFPS = f.fps()

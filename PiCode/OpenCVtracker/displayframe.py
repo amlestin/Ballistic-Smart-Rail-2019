@@ -6,7 +6,7 @@ import imutils
 import numpy
 #will I need numpy?
 
-class displayFrame:
+class DisplayFrame:
 	def __init__(self, frame=None):
 		self.frame = frame
 		self.stopped = False #indicates if thread should be stopped
@@ -18,10 +18,12 @@ class displayFrame:
 		return self
 		
 	def show(self):
+		cv2.namedWindow("HUD Preview",0);
 		while not self.stopped:
 			try:
-				self.frame = imutils.resize(self.frame, width=1000)
-				cv2.imshow("Scope View", self.frame)
+				#self.frame = imutils.resize(self.frame, width=1000)
+				cv2.imshow("HUD Preview", self.frame)
+				
 			except:
 				pass
 			if cv2.waitKey(1) == ord("q"):
