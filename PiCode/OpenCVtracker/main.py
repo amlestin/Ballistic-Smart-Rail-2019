@@ -1,11 +1,10 @@
 # USAGE
-# python ball_tracking.py --video ball_tracking_example.mp4
-# python ball_tracking.py
+# python main.py --video ball_tracking_example.mp4
+# python main.py
 
 # import the necessary packages
-from imutils.video import VideoStream
-from imutils.video import FPS
-from imutils.video import DisplayFrame #custom threaded class
+import color_tracker
+import HUD
 import numpy as np
 import argparse
 import cv2
@@ -15,10 +14,6 @@ import serial
 import struct
 import threading
 
-Xoffset = 0 #global ints
-Yoffset = 0
-trackingStatus = 0
-frame = None #I suspect this is needed since frame isn't declared before the displayFrame class is instantiated
 timeCheckA=[]
 timeCheckB=[]
 timeCheckC=[]
@@ -59,6 +54,7 @@ if not args.get("video", False):
 	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() #awb_mode=sunlight works well for tracking green object
 	frame = vs.read()
 	df = DisplayFrame().start() #instantiate frame display thread (using a comma inside the argument parentheses because frame is an np array)
+	tracker = ColorTracker().start()
 	
 	
 # otherwise, grab a reference to the video file
@@ -96,27 +92,9 @@ while True:
 		if frame is None:
 			break
 
-		# resize the frame, blur it, and convert it to the HSV
-		# color space
-		#frame = imutils.resize(frame, width=600) #moved this to its own threaded module to increase speed
 		time2=time.time()
-		blurred = cv2.GaussianBlur(frame, (11, 11), 0)
-		hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
-
-		# construct a mask for the color "green", then perform
-		# a series of dilations and erosions to remove any small
-		# blobs left in the mask
-		mask = cv2.inRange(hsv, greenLower, greenUpper)
-		mask = cv2.erode(mask, None, iterations=2)
-		mask = cv2.dilate(mask, None, iterations=2)
-
-		# find contours in the mask and initialize the current
-		# (x, y) center of the ball
-		cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
-			cv2.CHAIN_APPROX_SIMPLE)
-		cnts = imutils.grab_contours(cnts)
-		center = None
-		#timeCheck2=(time.time()-time2)
+		tracker.setFrame(frame)
+		xOffset, yOffset = tracker.getXYoffsets() #how will this work since getXYoffsets() is threaded?
 		timeCheckB.insert(i,int((time.time()-time2)*1000))
 		avgTimeB=(sum(timeCheckB))/(len(timeCheckB))
 		print("Avg ImgProcess Time: {:.2f}ms".format(avgTimeB))

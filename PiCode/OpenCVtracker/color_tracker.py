@@ -56,7 +56,7 @@ class ColorTracker:
 					center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 					Xoffset = float((x-(resWidth/2))/(resWidth/2)) #float representing distance from screen center to face center
 					Yoffset = float(((resLength/2)-int(y))/(resLength/2))
-					#return (xOffset, yOffset) #I don't think you need this since they're global vars
+					return (xOffset, yOffset)
 				else:
 					trackingStatus = 0
 			except:
