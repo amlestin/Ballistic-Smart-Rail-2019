@@ -2,7 +2,12 @@ import numpy as np
 import cv2
 import imutils
 #import struct #I'm not sure what I need this for so delete later if it proves unecessary
-import threading
+from threading import Thread
+import queue as Q
+import serial
+
+# serial connection to the Arduino
+arduino = serial.Serial('/dev/ttyUSB0', 115200)
 
 class ColorTracker:
 	# define the lower and upper boundaries of the "green"
@@ -11,23 +16,27 @@ class ColorTracker:
 	greenLower = (29, 86, 6)
 	greenUpper = (64, 255, 255)
 	
-	def __init__(self, frame=None):
+	def __init__(self, q=None):
 		#instance vars
-		self.frame = frame
+		self.q = q
 		self.stopped = False
+		self.cnts=(0,)
+		self.xOffset=0
+		self.yOffset=0
 		
 	def start(self):
-		t = Thread(target=self.getXYoffsets, args=())
+		t = Thread(target=self.update, args=())
 		t.daemon = True
 		t.start()
 		return self
 		
-	def getXYoffsets(self):
+	def update(self):
 		# keep looping
 		while not self.stopped:
+			currentFrame = self.q.get()
 			try:
 				# blur frame, and convert it to the HSV color space
-				blurred = cv2.GaussianBlur(frame, (11, 11), 0)
+				blurred = cv2.GaussianBlur(currentFrame.frame, (11, 11), 0)
 				hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
 				# construct a mask for the color "green", then perform
@@ -39,34 +48,35 @@ class ColorTracker:
 
 				# find contours in the mask and initialize the current
 				# (x, y) center of the ball
-				cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+				self.cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
 					cv2.CHAIN_APPROX_SIMPLE)
-				cnts = imutils.grab_contours(cnts)
+				self.cnts = imutils.grab_contours(self.cnts)
 				center = None
 				
 				# only proceed if at least one contour was found
-				if len(cnts) > 0:
+				if len(self.cnts) > 0:
 					# find the largest contour in the mask, then use
 					# it to compute the minimum enclosing circle and
 					# centroid
-					trackingStatus = 1
-					c = max(cnts, key=cv2.contourArea)
+					c = max(self.cnts, key=cv2.contourArea)
 					((x, y), radius) = cv2.minEnclosingCircle(c)
 					M = cv2.moments(c)
 					center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-					Xoffset = float((x-(resWidth/2))/(resWidth/2)) #float representing distance from screen center to face center
-					Yoffset = float(((resLength/2)-int(y))/(resLength/2))
-					return (xOffset, yOffset)
+					self.xOffset = float((x-(resWidth/2))/(resWidth/2)) #float representing distance from screen center to face center
+					self.yOffset = float(((resLength/2)-int(y))/(resLength/2))
+					arduino.write(offsetStr.encode("{:.3f},{:.3f},{}".format(xOffset, yOffset, getTrackingStatus)))
 				else:
-					trackingStatus = 0
+					self.cnts = None
+				print("tracker ready for ", currentFrame.name)
+				currentFrame.trackerReady = True
 			except:
 				pass
 		
 	def stop(self):
 		self.stopped = True
 		
-	def setFrame(self, value):
-		self.frame = value
-
-	def getFrame(self):
-		return self.frame
+	def getTrackingStatus(self):
+		if len(cnts)>0:
+			return 1
+		else:
+			return 0
