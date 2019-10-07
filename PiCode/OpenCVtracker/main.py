@@ -54,6 +54,7 @@ resLength = 240
 
 if not args.get("video", False):
 	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() #awb_mode=sunlight works well for tracking green object
+	time.sleep(1) #allow frame queue to fill a little
 	
 	#trackerQueue = Q.Queue(vs.getQueue())
 	#hudQueue = Q.Queue(vs.getQueue())
@@ -68,12 +69,14 @@ if not args.get("video", False):
 	
 #this is just for testing purposes and/or to keep the threads alive
 while True:
-	if not (vs.mainQueue.empty()):
-		#cv2.imshow("HUD Preview 2", vs.frame.frame)
-		#print(str(type(vs.getQueue)))
-		cv2.imshow("HUD Preview 2", vs.mainQueue.get())
-		key = cv2.waitKey(1) & 0xFF
-		#time.sleep(1)
+	#cv2.imshow("HUD Preview 2", vs.frame.frame)
+	#print(str(type(vs.getQueue)))
+	print(vs.mainQueue.qsize())
+	testTime = time.time()
+	cv2.imshow("HUD Preview 2", vs.mainQueue.get().frame)
+	key = cv2.waitKey(1) & 0xFF
+	print("Time elapsed: {:.2f}ms\n".format(float((time.time()-testTime)*1000)))
+	#time.sleep(1)
 	#f = FPS()
 	#f.start() 
 
