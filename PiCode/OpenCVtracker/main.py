@@ -19,6 +19,7 @@ timeCheckB=[]
 timeCheckC=[]
 timeCheckD=[]
 i=0
+j=0
 avgTimeA=0
 avgTimeB=0
 avgTimeC=0
@@ -66,16 +67,24 @@ if not args.get("video", False):
 	#tracker.start()
 	#hud = Hud(hudQueue)
 	#hud.start(tracker.cnts)
-	
+	time.sleep(1)
 #this is just for testing purposes and/or to keep the threads alive
 while True:
-	#cv2.imshow("HUD Preview 2", vs.frame.frame)
-	#print(str(type(vs.getQueue)))
-	print(vs.mainQueue.qsize())
-	testTime = time.time()
-	cv2.imshow("HUD Preview 2", vs.mainQueue.get().frame)
-	key = cv2.waitKey(1) & 0xFF
-	print("Time elapsed: {:.2f}ms\n".format(float((time.time()-testTime)*1000)))
+	while (len(vs.queueChunk) > 0):
+		testTime = time.time()
+		#print("Sleeping main loop for 2.5s...")
+		#time.sleep(2.5)
+		#print(vs.queueChunk)
+		for j in vs.queueChunk:
+			print("Showing queueChunk[{}]".format(i))
+			print("queueChunk size: {}".format(len(vs.queueChunk)))
+			cv2.imshow("HUD Preview 2", vs.queueChunk[i].frame)
+			key = cv2.waitKey(1) & 0xFF
+			i+=1
+		i=0
+		#cv2.imshow("HUD Preview 2", vs.queueChunk[(len(vs.queueChunk)-1)].frame)
+		vs.queueChunk = []
+		#print("Time elapsed: {:.2f}ms\n".format(float((time.time()-testTime)*1000)))
 	#time.sleep(1)
 	#f = FPS()
 	#f.start() 
