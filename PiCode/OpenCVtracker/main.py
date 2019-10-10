@@ -54,36 +54,32 @@ resWidth = 320
 resLength = 240
 
 if not args.get("video", False):
-	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() #awb_mode=sunlight works well for tracking green object
-	time.sleep(1) #allow frame queue to fill a little
+	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() # awb_mode=sunlight works well for tracking green object
+	time.sleep(1) # allow frame queue to fill a little
 	
-	#trackerQueue = Q.Queue(vs.getQueue())
-	#hudQueue = Q.Queue(vs.getQueue())
-	#displayFrameQueue = Q.Queue(vs.getQueue())
+	# trackerQueue = Q.Queue(vs.getQueue())
+	# hudQueue = Q.Queue(vs.getQueue())
+	# displayFrameQueue = Q.Queue(vs.getQueue())
 	
-	#df = DisplayFrame(displayFrameQueue)
-	#df.start()
-	#tracker = ColorTracker(trackerQueue)
-	#tracker.start()
-	#hud = Hud(hudQueue)
-	#hud.start(tracker.cnts)
+	# df = DisplayFrame(displayFrameQueue)
+	# df.start()
+	tracker = ColorTracker()
+	tracker.start()
+	# hud = Hud(hudQueue)
+	# hud.start(tracker.cnts)
 	time.sleep(1)
-#this is just for testing purposes and/or to keep the threads alive
+
 while True:
-	while (len(vs.queueChunk) > 0):
-		testTime = time.time()
-		#print("Sleeping main loop for 2.5s...")
-		#time.sleep(2.5)
-		#print(vs.queueChunk)
-		for j in vs.queueChunk:
-			print("Showing queueChunk[{}]".format(i))
-			print("queueChunk size: {}".format(len(vs.queueChunk)))
-			cv2.imshow("HUD Preview 2", vs.queueChunk[i].frame)
-			key = cv2.waitKey(1) & 0xFF
-			i+=1
-		i=0
-		#cv2.imshow("HUD Preview 2", vs.queueChunk[(len(vs.queueChunk)-1)].frame)
-		vs.queueChunk = []
+	testTime = time.time()
+	# print("Sleeping main loop for 2.5s...")
+	# time.sleep(2.5)
+	if tracker.xyDoneQueue.qsize() > 0:
+		newFrame = tracker.xyDoneQueue.get()
+		print("x/y offset: {}".format(newFrame.xyOffset))
+		cv2.imshow("HUD Preview 2", newFrame.frame)
+		key = cv2.waitKey(1) & 0xFF
+	else:
+		print("xyDoneQueue empty")
 		#print("Time elapsed: {:.2f}ms\n".format(float((time.time()-testTime)*1000)))
 	#time.sleep(1)
 	#f = FPS()

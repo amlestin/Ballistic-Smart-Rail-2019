@@ -1,10 +1,11 @@
 import numpy as np
 import cv2
 import imutils
-#import struct #I'm not sure what I need this for so delete later if it proves unecessary
+# import struct #I'm not sure what I need this for so delete later if it proves unecessary
 from threading import Thread
 import queue as Q
 import serial
+from imutils.video import VideoStream
 
 # serial connection to the Arduino
 arduino = serial.Serial('/dev/ttyUSB0', 115200)
@@ -16,13 +17,14 @@ class ColorTracker:
 	greenLower = (29, 86, 6)
 	greenUpper = (64, 255, 255)
 	
-	def __init__(self, q=None):
-		#instance vars
-		self.q = q
+	def __init__(self):
+		# instance vars
+		self.q = VideoStream.mainQueue
 		self.stopped = False
-		self.cnts=(0,)
-		self.xOffset=0
-		self.yOffset=0
+		self.cnts = (0,)
+		self.xOffset = 0
+		self.yOffset = 0
+		self.xyDoneQueue = Q.Queue()  # put processed frames in here for the next object (HUD/serial) to use
 		
 	def start(self):
 		t = Thread(target=self.update, args=())
@@ -32,9 +34,13 @@ class ColorTracker:
 		
 	def update(self):
 		# keep looping
-		while not self.stopped:
+
+		while not self.stopped and self.q.qsize()>0:
+			print("CT:mainQueue size: {}".format(self.q.qsize()))
 			currentFrame = self.q.get()
+			print("currentFrame.frame type:{}".format(str(type(currentFrame.frame))))
 			try:
+				print("processing frame")
 				# blur frame, and convert it to the HSV color space
 				blurred = cv2.GaussianBlur(currentFrame.frame, (11, 11), 0)
 				hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
@@ -55,6 +61,7 @@ class ColorTracker:
 				
 				# only proceed if at least one contour was found
 				if len(self.cnts) > 0:
+					print("Contours found")
 					# find the largest contour in the mask, then use
 					# it to compute the minimum enclosing circle and
 					# centroid
@@ -62,16 +69,19 @@ class ColorTracker:
 					((x, y), radius) = cv2.minEnclosingCircle(c)
 					M = cv2.moments(c)
 					center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-					self.xOffset = float((x-(resWidth/2))/(resWidth/2)) #float representing distance from screen center to face center
+					self.xOffset = float((x-(resWidth/2))/(resWidth/2))  # float representing distance from screen center to face center
 					self.yOffset = float(((resLength/2)-int(y))/(resLength/2))
-					arduino.write(offsetStr.encode("{:.3f},{:.3f},{}".format(xOffset, yOffset, getTrackingStatus)))
+					self.currentFrame.xyOffset = (xOffset, yOffset)
+					print("putting currentFrame into xyDoneQueue")
+					self.xyDoneQueue.put(self.currentFrame)
+					# arduino.write(offsetStr.encode("{:.3f},{:.3f},{}".format(xOffset, yOffset, getTrackingStatus))) #need to implement this elsewhere
 				else:
 					self.cnts = None
-				print("tracker ready for ", currentFrame.name)
-				currentFrame.trackerReady = True
+					print("No contours found")
 			except:
 				pass
-		
+		print("mainQueue < 0")
+
 	def stop(self):
 		self.stopped = True
 		
