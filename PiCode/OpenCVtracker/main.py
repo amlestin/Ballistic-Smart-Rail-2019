@@ -55,31 +55,33 @@ resLength = 240
 
 if not args.get("video", False):
 	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() # awb_mode=sunlight works well for tracking green object
-	time.sleep(1) # allow frame queue to fill a little
+	time.sleep(2.5) # allow frame queue to fill a little
 	
 	# trackerQueue = Q.Queue(vs.getQueue())
 	# hudQueue = Q.Queue(vs.getQueue())
 	# displayFrameQueue = Q.Queue(vs.getQueue())
 	
-	# df = DisplayFrame(displayFrameQueue)
+	# df = DisplayFrame(vs.mainQueue)
 	# df.start()
-	tracker = ColorTracker()
+	tracker = ColorTracker(vs.mainQueue)
 	tracker.start()
 	# hud = Hud(hudQueue)
 	# hud.start(tracker.cnts)
-	time.sleep(1)
+	# time.sleep(1)
 
 while True:
 	testTime = time.time()
-	# print("Sleeping main loop for 2.5s...")
-	# time.sleep(2.5)
-	if tracker.xyDoneQueue.qsize() > 0:
-		newFrame = tracker.xyDoneQueue.get()
-		print("x/y offset: {}".format(newFrame.xyOffset))
-		cv2.imshow("HUD Preview 2", newFrame.frame)
-		key = cv2.waitKey(1) & 0xFF
-	else:
-		print("xyDoneQueue empty")
+	print("Running main loop to keep threads alive...")
+	time.sleep(2.5)
+	# if tracker.xyDoneQueue.qsize() > 0:
+		# newFrame = tracker.xyDoneQueue.get()
+	# newFrame = tracker.xyDoneQueue.get()
+	# newFrame = vs.mainQueue.get()
+	# print("(x, y): ({:.2f}, {:.2f})".format(newFrame.xOffset, newFrame.yOffset))
+	# cv2.imshow("HUD Preview 2", newFrame.frame)
+	# key = cv2.waitKey(1) & 0xFF
+	# else:
+	# 	print("xyDoneQueue empty")
 		#print("Time elapsed: {:.2f}ms\n".format(float((time.time()-testTime)*1000)))
 	#time.sleep(1)
 	#f = FPS()

@@ -11,26 +11,23 @@ class DisplayFrame:
 	def __init__(self, q=None):
 		self.q = q
 		self.stopped = False #indicates if thread should be stopped
-		self.currentFrame=None
+		self.currentFrame = None
 		
 	def start(self):
 		t = Thread(target=self.show, args=())
 		t.daemon = True
 		t.start()
 		return self
-		
+
 	def show(self):
-		cv2.namedWindow("HUD Preview",0)
+		cv2.namedWindow("HUD Preview", 0)
 		while not self.stopped:
 			if not (self.q.empty()):
-				if (self.q.queue[0].frameReady()):
-					self.currentFrame = self.q.get()
-			#try:
-				#self.frame = imutils.resize(self.frame, width=1000)
-				#cv2.imshow("HUD Preview", self.currentFrame.frame)
-				
-			#except:
-				#pass
+				self.currentFrame = self.q.get()
+				# self.frame = imutils.resize(self.currentFrame, width=1000)
+				print("Showing frame: " + str(self.currentFrame.name))
+				cv2.imshow("HUD Preview", self.currentFrame.frame)
+				key = cv2.waitKey(1) & 0xFF
 			if cv2.waitKey(1) == ord("q"):
 				self.stopped = True
 

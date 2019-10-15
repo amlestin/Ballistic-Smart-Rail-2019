@@ -10,13 +10,9 @@ import random
 class CurrentFrame:
 	def __init__(self, frame=None):
 		self.frame = frame
-		self.hudReady = False
-		self.trackerReady = False
 		self.name = 0
-		self.xyOffset = (0, 0)
-		
-	def frameReady(self):
-		return (self.hudReady and self.trackerReady)
+		self.xOffset = 0
+		self.yOffset = 0
 
 class PiVideoStream:
 	def __init__(self, resolution=(320, 240), framerate=32, awb_mode='auto'):
@@ -33,7 +29,7 @@ class PiVideoStream:
 		# if the thread should be stopped
 		self.frame = CurrentFrame()
 		self.stopped = False
-		self.mainQueue = Q.Queue(maxsize=50)
+		self.mainQueue = Q.Queue(maxsize=100)
 
 	def start(self):
 		# start the thread to read frames from the video stream
@@ -52,13 +48,18 @@ class PiVideoStream:
 			self.rawCapture.truncate(0)
 			if not self.mainQueue.full():
 				print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
+				time1 = time.time()
 				self.mainQueue.put(self.frame)
+				print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
 				#  number (i.e. name) each frame in the queue
 				if (i <= 30):
 					self.frame.name = i
 					i=i+1
 				elif (i>30):
 					i=0
+			#else:
+			# 	self.mainQueue.get()
+			# 	self.mainQueue.put(self.frame)
 
 			# if the thread indicator variable is set, stop the thread
 			# and resource camera resources
