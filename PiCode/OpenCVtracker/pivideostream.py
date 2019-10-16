@@ -47,10 +47,10 @@ class PiVideoStream:
 			self.frame.frame = f.array
 			self.rawCapture.truncate(0)
 			if not self.mainQueue.full():
-				print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
+				# print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
 				time1 = time.time()
 				self.mainQueue.put(self.frame)
-				print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
+				# print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
 				#  number (i.e. name) each frame in the queue
 				if (i <= 30):
 					self.frame.name = i

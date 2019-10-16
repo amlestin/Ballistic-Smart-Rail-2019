@@ -63,16 +63,27 @@ if not args.get("video", False):
 	
 	# df = DisplayFrame(vs.mainQueue)
 	# df.start()
-	tracker = ColorTracker(vs.mainQueue)
-	tracker.start()
+	# tracker = ColorTracker(vs.mainQueue)
+	# tracker.start()
 	# hud = Hud(hudQueue)
 	# hud.start(tracker.cnts)
 	# time.sleep(1)
-
+f = FPS()
+f.start()
 while True:
-	testTime = time.time()
-	print("Running main loop to keep threads alive...")
-	time.sleep(2.5)
+	# testTime = time.time()
+	# print("Running main loop to keep threads alive...")
+	# time.sleep(2.5)
+	timeA = time.time()
+	# self.frame = imutils.resize(self.currentFrame, width=1000)
+	# print("Showing frame: " + str(self.currentFrame.name))
+	currentFrame = vs.mainQueue.get()
+	cv2.imshow("HUD Preview", currentFrame.frame)
+	key = cv2.waitKey(1) & 0xFF
+	timeB = time.time()
+	fps = 1/(timeB-timeA)
+	print("time elapsed: {:.3f}".format(1/fps))
+	print("fps: {:.2f}".format(fps))
 	# if tracker.xyDoneQueue.qsize() > 0:
 		# newFrame = tracker.xyDoneQueue.get()
 	# newFrame = tracker.xyDoneQueue.get()
@@ -84,9 +95,6 @@ while True:
 	# 	print("xyDoneQueue empty")
 		#print("Time elapsed: {:.2f}ms\n".format(float((time.time()-testTime)*1000)))
 	#time.sleep(1)
-	#f = FPS()
-	#f.start() 
-
 	#while True:
 		#if not (vs.mainQueue.empty()):
 			#print("Vs Queue ")

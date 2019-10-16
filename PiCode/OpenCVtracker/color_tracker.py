@@ -86,10 +86,14 @@ class ColorTracker:
 					# arduino.write(offsetStr.encode("{:.3f},{:.3f},{}".format(self.xOffset, self.yOffset, getTrackingStatus))) #need to implement this elsewhere
 				else:
 					self.cnts = None
-				print("CT: Get/process took {:.2f}s".format(time.time()-time1))
+				# print("CT: Get/process took {:.2f}s".format(time.time()-time1))
 					# print("No contours found")
 				cv2.imshow("HUD Preview", self.currentFrame.frame)
 				key = cv2.waitKey(1) & 0xFF
+				time2 = time.time()
+				fps = 1/(time2 - time1)
+				print("time elapsed: {:.2f}".format(1/fps))
+				print("fps: {:.2f}".format(fps))
 			# elif int(time.time()) % 2 == 0:
 			# 	print("mainQueue empty")
 
