@@ -4,6 +4,7 @@ from picamera import PiCamera
 from threading import Thread
 import cv2
 import time
+import datetime
 import queue as Q
 import random
 
@@ -11,6 +12,7 @@ class CurrentFrame:
 	def __init__(self, frame=None):
 		self.frame = frame
 		self.name = 0
+		self.timeStamp = 0
 		self.xOffset = 0
 		self.yOffset = 0
 
@@ -27,7 +29,7 @@ class PiVideoStream:
 
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
-		self.frame = CurrentFrame()
+		self.frame = CurrentFrame
 		self.stopped = False
 		self.mainQueue = Q.Queue(maxsize=100)
 
@@ -39,24 +41,24 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		i=0
 		# keep looping infinitely until the thread is stopped
 		for f in self.stream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
 			self.frame.frame = f.array
+			self.frame.timeStamp = (time.time() * 1000)
 			self.rawCapture.truncate(0)
-			if not self.mainQueue.full():
-				# print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
-				time1 = time.time()
-				self.mainQueue.put(self.frame)
-				# print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
-				#  number (i.e. name) each frame in the queue
-				if (i <= 30):
-					self.frame.name = i
-					i=i+1
-				elif (i>30):
-					i=0
+			# if not self.mainQueue.full():
+			# 	# print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
+			# 	time1 = time.time()
+			# 	self.mainQueue.put(self.frame)
+			# 	# print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
+			# 	#  number (i.e. name) each frame in the queue
+			# 	if (i <= 30):
+			# 		self.frame.name = i
+			# 		i=i+1
+			# 	elif (i>30):
+			# 		i=0
 			#else:
 			# 	self.mainQueue.get()
 			# 	self.mainQueue.put(self.frame)

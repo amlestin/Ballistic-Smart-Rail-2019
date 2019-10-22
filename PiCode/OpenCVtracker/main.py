@@ -24,6 +24,10 @@ avgTimeA=0
 avgTimeB=0
 avgTimeC=0
 avgTimeD=0
+currentTimeStamp = 0
+lastTimeStamp = 0
+stampSum = 0
+
 
 def printQueue(q):
 	for i in range(q.qsize()):
@@ -55,8 +59,8 @@ resLength = 240
 
 if not args.get("video", False):
 	vs = VideoStream(usePiCamera=True, awb_mode='sunlight', resolution=(resWidth, resLength)).start() # awb_mode=sunlight works well for tracking green object
-	time.sleep(2.5) # allow frame queue to fill a little
-	
+	print("cam warming up")
+	time.sleep(1)
 	# trackerQueue = Q.Queue(vs.getQueue())
 	# hudQueue = Q.Queue(vs.getQueue())
 	# displayFrameQueue = Q.Queue(vs.getQueue())
@@ -77,13 +81,32 @@ while True:
 	timeA = time.time()
 	# self.frame = imutils.resize(self.currentFrame, width=1000)
 	# print("Showing frame: " + str(self.currentFrame.name))
-	currentFrame = vs.mainQueue.get()
+	# for x in range(100):
+	currentFrame = vs.frame
 	cv2.imshow("HUD Preview", currentFrame.frame)
 	key = cv2.waitKey(1) & 0xFF
-	timeB = time.time()
-	fps = 1/(timeB-timeA)
-	print("time elapsed: {:.3f}".format(1/fps))
-	print("fps: {:.2f}".format(fps))
+	currentTimeStamp = currentFrame.timeStamp
+	if not currentTimeStamp == lastTimeStamp:
+		# print("{}".format((currentFrame.timeStamp-))
+		timeElapsed1 = currentTimeStamp - lastTimeStamp
+		print("{:.3f}".format(timeElapsed1))
+	lastTimeStamp = currentTimeStamp
+	# 			stampSum = stampSum + timeElapsed1
+	# 			print("stampSum: " + str(stampSum))
+	# 			i = i + 1
+	# 			avgTimeElapsed = stampSum / i
+	# 			print("Avg time elapsed: {:.2f}".format(avgTimeElapsed))
+	# 			# print("stampSum: " + str(stampSum))
+	# 		else:
+	# 			print("Duplicate frame!")
+	# 	lastTimeStamp = currentTimeStamp
+	# i=0
+	# stampSum = 0
+
+	# timeB = time.time()
+	# fps = 1/(timeB-timeA)
+	# print("time elapsed: {:.3f}".format(1/fps))
+	# print("fps: {:.2f}".format(fps))
 	# if tracker.xyDoneQueue.qsize() > 0:
 		# newFrame = tracker.xyDoneQueue.get()
 	# newFrame = tracker.xyDoneQueue.get()
