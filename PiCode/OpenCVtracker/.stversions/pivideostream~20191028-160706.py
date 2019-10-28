@@ -48,7 +48,7 @@ class PiVideoStream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
 			self.frame.frame = f.array
-			self.frame.timeStamp = (time.time() * 1000)
+			self.frame.timeStamp = ((time.time() * 1000) - self.time1)
 			self.rawCapture.truncate(0)
 			if not self.mainQueue.full():
 				# time1 = time.time()

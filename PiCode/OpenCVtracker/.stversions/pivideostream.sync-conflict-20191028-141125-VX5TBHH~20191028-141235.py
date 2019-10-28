@@ -1,7 +1,7 @@
 # import the necessary packages
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-from threading import Thread, Lock
+from threading import Thread
 import cv2
 import time
 import datetime
@@ -32,17 +32,15 @@ class PiVideoStream:
 		self.frame = CurrentFrame
 		self.stopped = False
 		self.mainQueue = Q.Queue(maxsize=100)
-		self.time1 = time.time()*1000
 
 	def start(self):
 		# start the thread to read frames from the video stream
-		self.t = Thread(target=self.update, args=())
-		self.t.daemon = True
-		self.t.start()
+		t = Thread(target=self.update, args=())
+		t.daemon = True
+		t.start()
 		return self
 
 	def update(self):
-		i=0
 		# keep looping infinitely until the thread is stopped
 		for f in self.stream:
 			# grab the frame from the stream and clear the stream in
@@ -50,20 +48,21 @@ class PiVideoStream:
 			self.frame.frame = f.array
 			self.frame.timeStamp = (time.time() * 1000)
 			self.rawCapture.truncate(0)
-			if not self.mainQueue.full():
-				# time1 = time.time()
-				self.mainQueue.put(self.frame)
-				# print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
-				#  number (i.e. name) each frame in the queue
-				if (i <= 100):
-					self.frame.name = i
-					i=i+1
-				elif (i>100):
-					i=0
-				print("{:.2f} | VS: Got frame {} from stream (mainQueue size: {})".format(self.frame.timeStamp, self.frame.name, self.mainQueue.qsize()))
-			else:
-				self.mainQueue.get()
-				self.mainQueue.put(self.frame)
+			# if not self.mainQueue.full():
+			# 	# print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
+			# 	time1 = time.time()
+			# 	self.mainQueue.put(self.frame)
+			# 	# print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
+			# 	#  number (i.e. name) each frame in the queue
+			# 	if (i <= 30):
+			# 		self.frame.name = i
+			# 		i=i+1
+			# 	elif (i>30):
+			# 		i=0
+			#else:
+			# 	self.mainQueue.get()
+			# 	self.mainQueue.put(self.frame)
+
 			# if the thread indicator variable is set, stop the thread
 			# and resource camera resources
 			if self.stopped:
@@ -75,6 +74,10 @@ class PiVideoStream:
 	def read(self):
 		# return the frame most recently read
 		return self.frame
+		
+	def more(self):
+		#return True if there are still frames in the queue
+		return self.mainQueue.qsize() > 0
 
 	def stop(self):
 		# indicate that the thread should be stopped

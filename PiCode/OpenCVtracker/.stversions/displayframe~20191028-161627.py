@@ -24,11 +24,10 @@ class DisplayFrame:
 		return self
 
 	def show(self):
-		# f.start()
-		print("DF started")
+		cv2.namedWindow("HUD Preview", 0)
+		f.start()
 		while not self.stopped:
 			if not (self.q.empty()):
-				print("{:.2f} | DF: xyDoneQueue not empty".format(time.time()*1000))
 				# f.start()
 				# for x in range(30):
 				# 	self.currentFrame = self.q.get()
@@ -45,10 +44,7 @@ class DisplayFrame:
 				key = cv2.waitKey(1) & 0xFF
 				print("{:.2f} | DF: Got frame {} from xyDoneQueue ({})".format((time.time()*1000), self.currentFrame.name, self.t.getName()))
 				# f._numFrames = 0
-			else:
-				print("{:.2f} | DF: xyDoneQueue empty".format(time.time()*1000))
 			if cv2.waitKey(1) == ord("q"):
-				print("waitKey(1) or q was pressed so stopping DF")
 				self.stopped = True
 
 	def stop(self):

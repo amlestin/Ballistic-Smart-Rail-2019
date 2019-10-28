@@ -36,18 +36,17 @@ resLength = 240
 
 
 if not args.get("video", False):
-    #test
     vs = VideoStream(usePiCamera=True, awb_mode='sunlight',
                      resolution=(resWidth, resLength)).start()  # awb_mode=sunlight works well for tracking green object
     print("cam warming up")
     time.sleep(1)
-    tracker1 = ColorTracker(vs.mainQueue).start()
-    # tracker2 = ColorTracker(vs.mainQueue).start()
+    tracker = ColorTracker(vs.mainQueue)
+    tracker.start()
     # hud = Hud()
     # hud.start(tracker.cnts)
     # time.sleep(1)
-    df1 = DisplayFrame(tracker1.xyDoneQueue).start()
-    # df2 = DisplayFrame(tracker2.xyDoneQueue).start()
+    df1 = DisplayFrame(tracker.xyDoneQueue).start()
+	# df2 = DisplayFrame(vs.frame).start()
 
 while True:
     # if not tracker.xyDoneQueue.empty():

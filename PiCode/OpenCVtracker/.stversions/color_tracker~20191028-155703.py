@@ -44,7 +44,7 @@ class ColorTracker:
 			if not self.q.empty():
 				time1 = time.time()
 				self.currentFrame = self.q.get()
-				print("{:.2f} | CT: Got frame {} from mainQueue".format((time.time()*1000), self.currentFrame.name))
+				print("{:.2f} | CT: Got frame {} from mainQueue".format(currentFrame.name))
 				# print("processing frame")
 				# blur frame, and convert it to the HSV color space
 				blurred = cv2.GaussianBlur(self.currentFrame.frame, (11, 11), 0)
@@ -80,8 +80,6 @@ class ColorTracker:
 					if not self.xyDoneQueue.full():
 						# print("putting currentFrame into xyDoneQueue")
 						self.xyDoneQueue.put(self.currentFrame, block=True)  # Block is true so it will wait for other thread to finish
-						print("{:.2f} | CT: Put frame {} to xyDoneQueue".format((time.time() * 1000),
-																				self.currentFrame.name))
 					else: #xyDoneQueue is full
 						self.xyDoneQueue.get() #remove the oldest frame to make room for the new frame
 						self.xyDoneQueue.put(self.currentFrame, block=True)

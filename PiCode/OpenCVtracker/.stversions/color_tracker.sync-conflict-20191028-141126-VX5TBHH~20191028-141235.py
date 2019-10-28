@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import imutils
+# import struct #I'm not sure what I need this for so delete later if it proves unecessary
 from threading import Thread
 import threading
 import queue as Q
@@ -23,20 +24,22 @@ class ColorTracker:
 
 	def __init__(self, q=None):
 		# instance vars
+		self.q = q
 		self.stopped = False
 		self.cnts = (0,)
 		self.xOffset = 0
 		self.yOffset = 0
 		self.xyDoneQueue = Q.Queue(maxsize=50)  # put processed frames in here for the next object (HUD/serial) to use
 		self.currentFrame = None
-		self.q = q  # mainQueue
-
+		self.t
+		self.doneEvent = threading.Event()
+		
 	def start(self):
 		self.t = Thread(target=self.update, args=())
 		self.t.daemon = True
 		self.t.start()
 		return self
-
+		
 	def update(self):
 		# keep looping
 		# cv2.namedWindow("HUD Preview", 0)  # only used for testing
@@ -44,11 +47,11 @@ class ColorTracker:
 			if not self.q.empty():
 				time1 = time.time()
 				self.currentFrame = self.q.get()
-				print("{:.2f} | CT: Got frame {} from mainQueue".format((time.time()*1000), self.currentFrame.name))
 				# print("processing frame")
 				# blur frame, and convert it to the HSV color space
 				blurred = cv2.GaussianBlur(self.currentFrame.frame, (11, 11), 0)
 				hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+
 				# construct a mask for the color "green", then perform
 				# a series of dilations and erosions to remove any small
 				# blobs left in the mask
@@ -77,25 +80,23 @@ class ColorTracker:
 					self.yOffset = float(((resLength/2)-int(y))/(resLength/2))
 					self.currentFrame.xOffset = self.xOffset
 					self.currentFrame.yOffset = self.yOffset
-					if not self.xyDoneQueue.full():
-						# print("putting currentFrame into xyDoneQueue")
-						self.xyDoneQueue.put(self.currentFrame, block=True)  # Block is true so it will wait for other thread to finish
-						print("{:.2f} | CT: Put frame {} to xyDoneQueue".format((time.time() * 1000),
-																				self.currentFrame.name))
-					else: #xyDoneQueue is full
-						self.xyDoneQueue.get() #remove the oldest frame to make room for the new frame
-						self.xyDoneQueue.put(self.currentFrame, block=True)
+					# if not self.xyDoneQueue.full():
+					# 	# print("putting currentFrame into xyDoneQueue")
+					# 	self.xyDoneQueue.put(self.currentFrame)
+					# else: #xyDoneQueue is full
+					# 	self.xyDoneQueue.get() #remove the oldest frame to make room for the new frame
+					# 	self.xyDoneQueue.put(self.currentFrame)
 					# arduino.write(offsetStr.encode("{:.3f},{:.3f},{}".format(self.xOffset, self.yOffset, getTrackingStatus))) #need to implement this elsewhere
 				else:
 					self.cnts = None
 				# print("CT: Get/process took {:.2f}s".format(time.time()-time1))
 					# print("No contours found")
-				# cv2.imshow("HUD Preview", self.currentFrame.frame)
-				# key = cv2.waitKey(1) & 0xFF
-				# time2 = time.time()
-				# fps = 1/(time2 - time1)
-				# print("time elapsed: {:.2f}".format(1/fps))
-				# print("fps: {:.2f}".format(fps))
+				cv2.imshow("HUD Preview", self.currentFrame.frame)
+				key = cv2.waitKey(1) & 0xFF
+				time2 = time.time()
+				fps = 1/(time2 - time1)
+				print("time elapsed: {:.2f}".format(1/fps))
+				print("fps: {:.2f}".format(fps))
 			# elif int(time.time()) % 2 == 0:
 			# 	print("mainQueue empty")
 

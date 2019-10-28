@@ -36,7 +36,6 @@ resLength = 240
 
 
 if not args.get("video", False):
-    #test
     vs = VideoStream(usePiCamera=True, awb_mode='sunlight',
                      resolution=(resWidth, resLength)).start()  # awb_mode=sunlight works well for tracking green object
     print("cam warming up")
