@@ -8,7 +8,8 @@ from HUD import Hud
 import numpy as np
 import argparse
 import cv2
-from imutils.video import VideoStream, FPS, DisplayFrame
+from imutils.video import VideoStream, FPS
+from displayframe import DisplayFrame
 import time
 import struct
 import threading
@@ -49,14 +50,9 @@ if not args.get("video", False):
     df1 = DisplayFrame(tracker1.xyDoneQueue).start()
     # df2 = DisplayFrame(tracker2.xyDoneQueue).start()
 
-while True:
-    # if not tracker.xyDoneQueue.empty():
-        # currentFrame = tracker.xyDoneQueue.get()
-        # cv2.imshow("HUD Preview", currentFrame.frame)
-        # key = cv2.waitKey(1) & 0xFF
-        #print("{:.3f} | frame: {} x/y offset: ({:.2f},{:.2f})".format(currentFrame.timeStamp, currentFrame.name, currentFrame.xOffset, currentFrame.yOffset))
-    print("Keeping threads alive...")
-    time.sleep(2)
+    vs.t.join()
+    tracker1.t.join()
+    df1.t.join()
 
 # vs.release()
 

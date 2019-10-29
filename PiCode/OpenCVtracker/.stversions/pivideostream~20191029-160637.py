@@ -29,9 +29,9 @@ class PiVideoStream:
 
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
-		self.frame = CurrentFrame
+		self.frame = CurrentFrame()	
 		self.stopped = False
-		self.mainQueue = Q.Queue(maxsize=100)
+		self.mainQueue = Q.Queue(maxsize=50)
 		self.time1 = time.time()*1000
 
 	def start(self):
@@ -42,25 +42,25 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		i=0
+		i=1
 		# keep looping infinitely until the thread is stopped
 		for f in self.stream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
 			self.frame.frame = f.array
-			self.frame.timeStamp = ((time.time() * 1000) - self.time1)
+			self.frame.timeStamp = (time.time() * 1000)
 			self.rawCapture.truncate(0)
 			if not self.mainQueue.full():
-				print("VS: mainQueue size: {}".format(self.mainQueue.qsize()))
 				# time1 = time.time()
 				self.mainQueue.put(self.frame)
 				# print("VS: mainQueue.put() took {:.2f}s".format(time.time()-time1))
 				#  number (i.e. name) each frame in the queue
-				if (i <= 100):
+				if (i <= 50):
 					self.frame.name = i
 					i=i+1
-				elif (i>100):
-					i=0
+				elif (i>50):
+					i=1
+				print("VS: {:.2f} Put frame {} from stream into mainQueue (mainQueue size: {})".format(self.frame.timeStamp, self.frame.name, self.mainQueue.qsize()))
 			else:
 				self.mainQueue.get()
 				self.mainQueue.put(self.frame)

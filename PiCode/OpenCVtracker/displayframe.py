@@ -16,7 +16,7 @@ class DisplayFrame:
 		self.q = q  # xyDoneQueue
 		self.stopped = False #indicates if thread should be stopped
 		self.currentFrame = None
-		
+
 	def start(self):
 		self.t = Thread(target=self.show, args=())
 		self.t.daemon = True
@@ -28,7 +28,6 @@ class DisplayFrame:
 		print("DF started")
 		while not self.stopped:
 			if not (self.q.empty()):
-				print("{:.2f} | DF: xyDoneQueue not empty".format(time.time()*1000))
 				# f.start()
 				# for x in range(30):
 				# 	self.currentFrame = self.q.get()
@@ -41,12 +40,13 @@ class DisplayFrame:
 				self.currentFrame = self.q.get()
 				# self.frame = imutils.resize(self.currentFrame, width=1000)
 				# print("Showing frame: " + str(self.currentFrame.name))
+				print("DF1: {:.2f} Got frame {} from xyDoneQueue".format((time.time() * 1000), self.currentFrame.name))
 				cv2.imshow("HUD Preview", self.currentFrame.frame)
 				key = cv2.waitKey(1) & 0xFF
-				print("{:.2f} | DF: Got frame {} from xyDoneQueue ({})".format((time.time()*1000), self.currentFrame.name, self.t.getName()))
+				print("DF2: {:.2f} Imshowed frame {} ".format((time.time() * 1000), self.currentFrame.name))
 				# f._numFrames = 0
-			else:
-				print("{:.2f} | DF: xyDoneQueue empty".format(time.time()*1000))
+			# else:
+			# 	print("{:.2f} | DF: xyDoneQueue empty".format(time.time()*1000))
 			if cv2.waitKey(1) == ord("q"):
 				print("waitKey(1) or q was pressed so stopping DF")
 				self.stopped = True

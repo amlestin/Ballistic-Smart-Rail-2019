@@ -45,6 +45,7 @@ class ColorTracker:
             if not self.q.empty():
                 time1 = time.time()
                 self.currentFrame = self.q.get()
+                
                 print("CT1: {:.2f} Got frame {} from mainQueue".format((time.time() * 1000), self.currentFrame.name), flush=True)
                 # print("processing frame")
                 # blur frame, and convert it to the HSV color space

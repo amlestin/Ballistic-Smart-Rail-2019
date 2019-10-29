@@ -8,7 +8,8 @@ from HUD import Hud
 import numpy as np
 import argparse
 import cv2
-from imutils.video import VideoStream, FPS, DisplayFrame
+from imutils.video import VideoStream, FPS
+from displayframe import DisplayFrame
 import time
 import struct
 import threading
@@ -36,26 +37,22 @@ resLength = 240
 
 
 if not args.get("video", False):
+    #test
     vs = VideoStream(usePiCamera=True, awb_mode='sunlight',
                      resolution=(resWidth, resLength)).start()  # awb_mode=sunlight works well for tracking green object
     print("cam warming up")
     time.sleep(1)
-    tracker = ColorTracker(vs.mainQueue)
-    tracker.start()
+    tracker1 = ColorTracker(vs.mainQueue).start()
+    # tracker2 = ColorTracker(vs.mainQueue).start()
     # hud = Hud()
     # hud.start(tracker.cnts)
     # time.sleep(1)
-    df1 = DisplayFrame(tracker.xyDoneQueue).start()
-	# df2 = DisplayFrame(vs.frame).start()
+    df1 = DisplayFrame(tracker1.xyDoneQueue).start()
+    # df2 = DisplayFrame(tracker2.xyDoneQueue).start()
 
-while True:
-    # if not tracker.xyDoneQueue.empty():
-        # currentFrame = tracker.xyDoneQueue.get()
-        # cv2.imshow("HUD Preview", currentFrame.frame)
-        # key = cv2.waitKey(1) & 0xFF
-        #print("{:.3f} | frame: {} x/y offset: ({:.2f},{:.2f})".format(currentFrame.timeStamp, currentFrame.name, currentFrame.xOffset, currentFrame.yOffset))
-    print("Keeping threads alive...")
-    sleep(2)
+    vs.join()
+    tracker1.join()
+    df1.join()
 
 # vs.release()
 

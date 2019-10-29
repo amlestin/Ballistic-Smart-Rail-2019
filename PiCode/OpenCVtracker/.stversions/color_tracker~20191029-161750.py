@@ -6,6 +6,7 @@ import threading
 import queue as Q
 #import serial
 import time
+import pdb
 
 # serial connection to the Arduino
 #arduino = serial.Serial('/dev/ttyUSB0', 115200)

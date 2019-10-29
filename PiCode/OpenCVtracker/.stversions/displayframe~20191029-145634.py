@@ -7,6 +7,7 @@ from imutils.video import FPS
 import numpy
 #will I need numpy?
 import queue as Q
+import time
 
 f = FPS()
 
@@ -15,7 +16,7 @@ class DisplayFrame:
 		self.q = q  # xyDoneQueue
 		self.stopped = False #indicates if thread should be stopped
 		self.currentFrame = None
-		
+
 	def start(self):
 		self.t = Thread(target=self.show, args=())
 		self.t.daemon = True
@@ -23,8 +24,8 @@ class DisplayFrame:
 		return self
 
 	def show(self):
-		cv2.namedWindow("HUD Preview", 0)
-		f.start()
+		# f.start()
+		print("DF started")
 		while not self.stopped:
 			if not (self.q.empty()):
 				# f.start()
@@ -39,11 +40,15 @@ class DisplayFrame:
 				self.currentFrame = self.q.get()
 				# self.frame = imutils.resize(self.currentFrame, width=1000)
 				# print("Showing frame: " + str(self.currentFrame.name))
+				print("{:.2f} | DF1: Got frame {} from xyDoneQueue".format((time.time() * 1000), self.currentFrame.name))
 				cv2.imshow("HUD Preview", self.currentFrame.frame)
 				key = cv2.waitKey(1) & 0xFF
-				print("{:.2f} | DF: Got frame {} from xyDoneQueue ({})".format(self.currentFrame.timeStamp, self.currentFrame.name, self.t.getName()))
+				print("{:.2f} | DF2: Imshowed frame {} ".format((time.time() * 1000), self.currentFrame.name))
 				# f._numFrames = 0
+			# else:
+			# 	print("{:.2f} | DF: xyDoneQueue empty".format(time.time()*1000))
 			if cv2.waitKey(1) == ord("q"):
+				print("waitKey(1) or q was pressed so stopping DF")
 				self.stopped = True
 
 	def stop(self):

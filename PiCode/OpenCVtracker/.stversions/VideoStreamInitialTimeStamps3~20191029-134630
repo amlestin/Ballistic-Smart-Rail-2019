@@ -1,0 +1,303 @@
+1572371047270.74 | VS: Put frame 0 from stream into mainQueue (mainQueue size: 1)
+1572371047309.10 | VS: Put frame 1 from stream into mainQueue (mainQueue size: 2)
+1572371047330.62 | VS: Put frame 2 from stream into mainQueue (mainQueue size: 3)
+1572371047371.01 | VS: Put frame 3 from stream into mainQueue (mainQueue size: 4)
+1572371047398.64 | VS: Put frame 4 from stream into mainQueue (mainQueue size: 5)
+1572371047435.80 | VS: Put frame 5 from stream into mainQueue (mainQueue size: 6)
+1572371047464.22 | VS: Put frame 6 from stream into mainQueue (mainQueue size: 7)
+1572371047498.83 | VS: Put frame 7 from stream into mainQueue (mainQueue size: 8)
+1572371047538.10 | VS: Put frame 8 from stream into mainQueue (mainQueue size: 9)
+1572371047564.61 | VS: Put frame 9 from stream into mainQueue (mainQueue size: 10)
+1572371047596.15 | VS: Put frame 10 from stream into mainQueue (mainQueue size: 11)
+1572371047638.49 | VS: Put frame 11 from stream into mainQueue (mainQueue size: 12)
+1572371047664.49 | VS: Put frame 12 from stream into mainQueue (mainQueue size: 13)
+1572371047697.87 | VS: Put frame 13 from stream into mainQueue (mainQueue size: 14)
+1572371047734.35 | VS: Put frame 14 from stream into mainQueue (mainQueue size: 15)
+1572371047768.97 | VS: Put frame 15 from stream into mainQueue (mainQueue size: 16)
+1572371047799.00 | VS: Put frame 16 from stream into mainQueue (mainQueue size: 17)
+1572371047830.38 | VS: Put frame 17 from stream into mainQueue (mainQueue size: 18)
+1572371047867.02 | VS: Put frame 18 from stream into mainQueue (mainQueue size: 19)
+1572371047893.91 | VS: Put frame 19 from stream into mainQueue (mainQueue size: 20)
+1572371047934.66 | VS: Put frame 20 from stream into mainQueue (mainQueue size: 21)
+1572371047969.97 | VS: Put frame 21 from stream into mainQueue (mainQueue size: 22)
+1572371048002.18 | VS: Put frame 22 from stream into mainQueue (mainQueue size: 23)
+1572371048032.20 | VS: Put frame 23 from stream into mainQueue (mainQueue size: 24)
+1572371048081.81 | VS: Put frame 24 from stream into mainQueue (mainQueue size: 25)
+1572371048150.29 | CT1: Got frame 24 from mainQueue
+DF started
+1572371048173.22 | VS: Put frame 25 from stream into mainQueue (mainQueue size: 25)
+1572371048182.22 | CT2: Put frame 25 to xyDoneQueue (xyDoneQueue size: 25)
+1572371048183.26 | CT1: Got frame 25 from mainQueue
+1572371048191.26 | DF1: Got frame 25 from xyDoneQueue
+1572371048201.20 | VS: Put frame 26 from stream into mainQueue (mainQueue size: 25)
+1572371048207.16 | CT2: Put frame 26 to xyDoneQueue (xyDoneQueue size: 25)
+1572371048207.66 | CT1: Got frame 26 from mainQueue
+1572371048215.34 | CT2: Put frame 26 to xyDoneQueue (xyDoneQueue size: 24)
+1572371048215.58 | CT1: Got frame 26 from mainQueue
+1572371048228.71 | CT2: Put frame 26 to xyDoneQueue (xyDoneQueue size: 23)
+1572371048229.30 | CT1: Got frame 26 from mainQueue
+1572371048242.76 | VS: Put frame 27 from stream into mainQueue (mainQueue size: 23)
+1572371048245.15 | CT2: Put frame 27 to xyDoneQueue (xyDoneQueue size: 23)
+1572371048245.61 | CT1: Got frame 27 from mainQueue
+1572371048256.92 | CT2: Put frame 27 to xyDoneQueue (xyDoneQueue size: 22)
+1572371048257.29 | CT1: Got frame 27 from mainQueue
+1572371048270.52 | VS: Put frame 28 from stream into mainQueue (mainQueue size: 22)
+1572371048282.08 | CT2: Put frame 28 to xyDoneQueue (xyDoneQueue size: 22)
+1572371048282.45 | CT1: Got frame 28 from mainQueue
+1572371048298.49 | CT2: Put frame 28 to xyDoneQueue (xyDoneQueue size: 21)
+1572371048298.81 | CT1: Got frame 28 from mainQueue
+1572371048300.57 | VS: Put frame 29 from stream into mainQueue (mainQueue size: 21)
+1572371048312.94 | CT2: Put frame 29 to xyDoneQueue (xyDoneQueue size: 21)
+1572371048313.25 | CT1: Got frame 29 from mainQueue
+1572371048329.21 | CT2: Put frame 29 to xyDoneQueue (xyDoneQueue size: 20)
+1572371048330.39 | CT1: Got frame 29 from mainQueue
+1572371048337.33 | VS: Put frame 30 from stream into mainQueue (mainQueue size: 20)
+1572371048348.11 | CT2: Put frame 30 to xyDoneQueue (xyDoneQueue size: 20)
+1572371048348.39 | CT1: Got frame 30 from mainQueue
+1572371048365.06 | VS: Put frame 31 from stream into mainQueue (mainQueue size: 20)
+1572371048370.77 | CT2: Put frame 31 to xyDoneQueue (xyDoneQueue size: 20)
+1572371048371.33 | CT1: Got frame 31 from mainQueue
+1572371048398.68 | VS: Put frame 32 from stream into mainQueue (mainQueue size: 20)
+1572371048404.38 | CT2: Put frame 32 to xyDoneQueue (xyDoneQueue size: 20)
+1572371048407.92 | CT1: Got frame 32 from mainQueue
+1572371048422.22 | CT2: Put frame 32 to xyDoneQueue (xyDoneQueue size: 19)
+1572371048422.75 | CT1: Got frame 32 from mainQueue
+1572371048432.98 | VS: Put frame 33 from stream into mainQueue (mainQueue size: 19)
+1572371048440.04 | CT2: Put frame 33 to xyDoneQueue (xyDoneQueue size: 19)
+1572371048440.52 | CT1: Got frame 33 from mainQueue
+1572371048456.88 | CT2: Put frame 33 to xyDoneQueue (xyDoneQueue size: 18)
+1572371048457.39 | CT1: Got frame 33 from mainQueue
+1572371048463.07 | VS: Put frame 34 from stream into mainQueue (mainQueue size: 18)
+1572371048471.12 | CT2: Put frame 34 to xyDoneQueue (xyDoneQueue size: 18)
+1572371048471.43 | CT1: Got frame 34 from mainQueue
+1572371048485.57 | CT2: Put frame 34 to xyDoneQueue (xyDoneQueue size: 17)
+1572371048485.87 | CT1: Got frame 34 from mainQueue
+1572371048498.42 | CT2: Put frame 34 to xyDoneQueue (xyDoneQueue size: 16)
+1572371048498.80 | CT1: Got frame 34 from mainQueue
+1572371048502.36 | VS: Put frame 35 from stream into mainQueue (mainQueue size: 16)
+1572371048512.19 | CT2: Put frame 35 to xyDoneQueue (xyDoneQueue size: 16)
+1572371048512.47 | CT1: Got frame 35 from mainQueue
+1572371048520.00 | CT2: Put frame 35 to xyDoneQueue (xyDoneQueue size: 15)
+1572371048520.27 | CT1: Got frame 35 from mainQueue
+1572371048526.64 | VS: Put frame 36 from stream into mainQueue (mainQueue size: 15)
+1572371048530.74 | CT2: Put frame 36 to xyDoneQueue (xyDoneQueue size: 15)
+1572371048531.01 | CT1: Got frame 36 from mainQueue
+1572371048543.25 | CT2: Put frame 36 to xyDoneQueue (xyDoneQueue size: 14)
+1572371048543.59 | CT1: Got frame 36 from mainQueue
+1572371048556.44 | CT2: Put frame 36 to xyDoneQueue (xyDoneQueue size: 13)
+1572371048557.00 | CT1: Got frame 36 from mainQueue
+1572371048566.63 | VS: Put frame 37 from stream into mainQueue (mainQueue size: 13)
+1572371048573.45 | CT2: Put frame 37 to xyDoneQueue (xyDoneQueue size: 13)
+1572371048574.07 | CT1: Got frame 37 from mainQueue
+1572371048592.69 | CT2: Put frame 37 to xyDoneQueue (xyDoneQueue size: 12)
+1572371048595.03 | CT1: Got frame 37 from mainQueue
+1572371048597.55 | VS: Put frame 38 from stream into mainQueue (mainQueue size: 12)
+1572371048609.09 | CT2: Put frame 38 to xyDoneQueue (xyDoneQueue size: 12)
+1572371048610.18 | CT1: Got frame 38 from mainQueue
+1572371048625.72 | CT2: Put frame 38 to xyDoneQueue (xyDoneQueue size: 11)
+1572371048626.24 | CT1: Got frame 38 from mainQueue
+1572371048639.35 | VS: Put frame 39 from stream into mainQueue (mainQueue size: 11)
+1572371048648.14 | CT2: Put frame 39 to xyDoneQueue (xyDoneQueue size: 11)
+1572371048648.50 | CT1: Got frame 39 from mainQueue
+1572371048669.63 | VS: Put frame 40 from stream into mainQueue (mainQueue size: 11)
+1572371048675.74 | CT2: Put frame 40 to xyDoneQueue (xyDoneQueue size: 11)
+1572371048676.08 | CT1: Got frame 40 from mainQueue
+1572371048688.00 | CT2: Put frame 40 to xyDoneQueue (xyDoneQueue size: 10)
+1572371048688.58 | CT1: Got frame 40 from mainQueue
+1572371048704.19 | VS: Put frame 41 from stream into mainQueue (mainQueue size: 10)
+1572371048711.78 | CT2: Put frame 41 to xyDoneQueue (xyDoneQueue size: 10)
+1572371048712.14 | CT1: Got frame 41 from mainQueue
+1572371048723.17 | CT2: Put frame 41 to xyDoneQueue (xyDoneQueue size: 9)
+1572371048723.69 | CT1: Got frame 41 from mainQueue
+1572371048730.20 | VS: Put frame 42 from stream into mainQueue (mainQueue size: 9)
+1572371048741.25 | CT2: Put frame 42 to xyDoneQueue (xyDoneQueue size: 9)
+1572371048741.85 | CT1: Got frame 42 from mainQueue
+1572371048754.07 | CT2: Put frame 42 to xyDoneQueue (xyDoneQueue size: 8)
+1572371048754.78 | CT1: Got frame 42 from mainQueue
+1572371048762.80 | VS: Put frame 43 from stream into mainQueue (mainQueue size: 8)
+1572371048797.15 | CT2: Put frame 43 to xyDoneQueue (xyDoneQueue size: 8)
+1572371048799.33 | VS: Put frame 44 from stream into mainQueue (mainQueue size: 9)
+1572371048820.49 | CT1: Got frame 44 from mainQueue
+1572371048832.74 | CT2: Put frame 44 to xyDoneQueue (xyDoneQueue size: 8)
+1572371048833.02 | CT1: Got frame 44 from mainQueue
+1572371048851.10 | CT2: Put frame 44 to xyDoneQueue (xyDoneQueue size: 7)
+1572371048851.53 | CT1: Got frame 44 from mainQueue
+1572371048874.92 | CT2: Put frame 44 to xyDoneQueue (xyDoneQueue size: 6)
+1572371048875.39 | CT1: Got frame 44 from mainQueue
+1572371048891.42 | CT2: Put frame 44 to xyDoneQueue (xyDoneQueue size: 5)
+1572371048892.22 | CT1: Got frame 44 from mainQueue
+1572371048911.79 | VS: Put frame 45 from stream into mainQueue (mainQueue size: 5)
+1572371048919.61 | CT2: Put frame 45 to xyDoneQueue (xyDoneQueue size: 5)
+1572371048920.28 | CT1: Got frame 45 from mainQueue
+1572371048933.93 | VS: Put frame 46 from stream into mainQueue (mainQueue size: 5)
+1572371048952.41 | CT2: Put frame 46 to xyDoneQueue (xyDoneQueue size: 5)
+1572371048953.90 | CT1: Got frame 46 from mainQueue
+1572371048964.84 | VS: Put frame 47 from stream into mainQueue (mainQueue size: 5)
+1572371048986.35 | CT2: Put frame 47 to xyDoneQueue (xyDoneQueue size: 5)
+1572371048986.81 | CT1: Got frame 47 from mainQueue
+1572371048996.66 | VS: Put frame 48 from stream into mainQueue (mainQueue size: 5)
+1572371049010.22 | CT2: Put frame 48 to xyDoneQueue (xyDoneQueue size: 5)
+1572371049011.10 | CT1: Got frame 48 from mainQueue
+1572371049028.45 | VS: Put frame 49 from stream into mainQueue (mainQueue size: 5)
+1572371049032.25 | CT2: Put frame 49 to xyDoneQueue (xyDoneQueue size: 5)
+1572371049032.55 | CT1: Got frame 49 from mainQueue
+1572371049049.14 | CT2: Put frame 49 to xyDoneQueue (xyDoneQueue size: 4)
+1572371049049.49 | CT1: Got frame 49 from mainQueue
+1572371049070.19 | VS: Put frame 50 from stream into mainQueue (mainQueue size: 4)
+1572371049077.78 | CT2: Put frame 50 to xyDoneQueue (xyDoneQueue size: 4)
+1572371049078.17 | CT1: Got frame 50 from mainQueue
+1572371049090.38 | CT2: Put frame 50 to xyDoneQueue (xyDoneQueue size: 3)
+1572371049090.72 | CT1: Got frame 50 from mainQueue
+1572371049101.47 | VS: Put frame 51 from stream into mainQueue (mainQueue size: 3)
+1572371049110.71 | CT2: Put frame 51 to xyDoneQueue (xyDoneQueue size: 3)
+1572371049111.00 | CT1: Got frame 51 from mainQueue
+1572371049122.21 | CT2: Put frame 51 to xyDoneQueue (xyDoneQueue size: 2)
+1572371049122.64 | CT1: Got frame 51 from mainQueue
+1572371049131.79 | VS: Put frame 52 from stream into mainQueue (mainQueue size: 2)
+1572371049139.83 | CT2: Put frame 52 to xyDoneQueue (xyDoneQueue size: 2)
+1572371049140.14 | CT1: Got frame 52 from mainQueue
+1572371049153.27 | CT1: Got frame 52 from mainQueue
+1572371049160.63 | VS: Put frame 53 from stream into mainQueue (mainQueue size: 1)
+1572371049166.45 | CT1: Got frame 53 from mainQueue
+1572371049245.68 | VS: Put frame 54 from stream into mainQueue (mainQueue size: 1)
+1572371049246.74 | CT1: Got frame 54 from mainQueue
+1572371049356.43 | VS: Put frame 55 from stream into mainQueue (mainQueue size: 1)
+1572371049360.12 | DF2: Imshowed frame 55 
+1572371049360.97 | CT1: Got frame 55 from mainQueue
+1572371049362.71 | DF1: Got frame 55 from xyDoneQueue
+1572371049364.95 | DF2: Imshowed frame 55 
+1572371049366.50 | DF1: Got frame 55 from xyDoneQueue
+1572371049372.50 | DF2: Imshowed frame 55 
+1572371049375.82 | CT2: Put frame 55 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049383.57 | DF1: Got frame 55 from xyDoneQueue
+1572371049402.66 | DF2: Imshowed frame 55 
+1572371049450.65 | DF1: Got frame 55 from xyDoneQueue
+1572371049468.57 | VS: Put frame 56 from stream into mainQueue (mainQueue size: 1)
+1572371049468.98 | CT1: Got frame 56 from mainQueue
+1572371049480.98 | CT2: Put frame 56 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049548.93 | VS: Put frame 57 from stream into mainQueue (mainQueue size: 1)
+1572371049551.49 | CT1: Got frame 57 from mainQueue
+1572371049574.07 | CT2: Put frame 57 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049586.58 | DF2: Imshowed frame 57 
+1572371049598.29 | DF1: Got frame 57 from xyDoneQueue
+1572371049631.46 | DF2: Imshowed frame 57 
+1572371049632.54 | CT1: Got frame 58 from mainQueue
+1572371049628.68 | VS: Put frame 58 from stream into mainQueue (mainQueue size: 0)
+1572371049643.11 | DF1: Got frame 58 from xyDoneQueue
+1572371049650.55 | CT2: Put frame 58 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049664.94 | DF2: Imshowed frame 58 
+1572371049682.77 | DF1: Got frame 58 from xyDoneQueue
+1572371049714.10 | DF2: Imshowed frame 58 
+1572371049724.76 | VS: Put frame 59 from stream into mainQueue (mainQueue size: 1)
+1572371049725.77 | CT1: Got frame 59 from mainQueue
+1572371049728.86 | DF1: Got frame 59 from xyDoneQueue
+1572371049737.03 | DF2: Imshowed frame 59 
+1572371049745.86 | CT2: Put frame 59 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049753.94 | DF1: Got frame 59 from xyDoneQueue
+1572371049773.33 | DF2: Imshowed frame 59 
+1572371049786.70 | DF1: Got frame 59 from xyDoneQueue
+1572371049811.62 | DF2: Imshowed frame 59 
+1572371049831.93 | DF1: Got frame 59 from xyDoneQueue
+1572371049831.05 | VS: Put frame 60 from stream into mainQueue (mainQueue size: 1)
+1572371049832.71 | CT1: Got frame 60 from mainQueue
+1572371049847.63 | CT2: Put frame 60 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049861.83 | DF2: Imshowed frame 60 
+1572371049876.29 | DF1: Got frame 60 from xyDoneQueue
+1572371049897.27 | DF2: Imshowed frame 60 
+1572371049946.65 | VS: Put frame 61 from stream into mainQueue (mainQueue size: 1)
+1572371049947.43 | CT1: Got frame 61 from mainQueue
+1572371049957.95 | DF1: Got frame 61 from xyDoneQueue
+1572371049964.34 | DF2: Imshowed frame 61 
+1572371049966.11 | CT2: Put frame 61 to xyDoneQueue (xyDoneQueue size: 0)
+1572371049980.43 | DF1: Got frame 61 from xyDoneQueue
+1572371049996.35 | DF2: Imshowed frame 61 
+1572371050013.98 | DF1: Got frame 61 from xyDoneQueue
+1572371050068.98 | CT1: Got frame 62 from mainQueue
+1572371050067.88 | VS: Put frame 62 from stream into mainQueue (mainQueue size: 0)
+1572371050069.42 | DF2: Imshowed frame 62 
+1572371050075.97 | DF1: Got frame 62 from xyDoneQueue
+1572371050088.25 | CT2: Put frame 62 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050099.22 | DF2: Imshowed frame 62 
+1572371050112.05 | DF1: Got frame 62 from xyDoneQueue
+1572371050175.47 | VS: Put frame 63 from stream into mainQueue (mainQueue size: 1)
+1572371050179.02 | CT1: Got frame 63 from mainQueue
+1572371050194.06 | CT2: Put frame 63 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050201.04 | DF2: Imshowed frame 63 
+1572371050213.73 | DF1: Got frame 63 from xyDoneQueue
+1572371050247.56 | DF2: Imshowed frame 63 
+1572371050269.96 | DF1: Got frame 63 from xyDoneQueue
+1572371050304.81 | VS: Put frame 64 from stream into mainQueue (mainQueue size: 1)
+1572371050306.18 | CT1: Got frame 64 from mainQueue
+1572371050331.04 | DF2: Imshowed frame 64 
+1572371050344.79 | DF1: Got frame 64 from xyDoneQueue
+1572371050347.77 | CT2: Put frame 64 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050354.43 | DF2: Imshowed frame 64 
+1572371050367.02 | DF1: Got frame 64 from xyDoneQueue
+1572371050387.94 | DF2: Imshowed frame 64 
+1572371050411.89 | DF1: Got frame 64 from xyDoneQueue
+1572371050414.48 | VS: Put frame 65 from stream into mainQueue (mainQueue size: 1)
+1572371050420.97 | CT1: Got frame 65 from mainQueue
+1572371050423.94 | DF2: Imshowed frame 65 
+1572371050430.66 | DF1: Got frame 65 from xyDoneQueue
+1572371050433.33 | DF2: Imshowed frame 65 
+1572371050435.45 | CT2: Put frame 65 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050441.97 | DF1: Got frame 65 from xyDoneQueue
+1572371050460.84 | DF2: Imshowed frame 65 
+1572371050473.38 | DF1: Got frame 65 from xyDoneQueue
+1572371050496.76 | DF2: Imshowed frame 65 
+1572371050550.60 | DF1: Got frame 65 from xyDoneQueue
+1572371050553.46 | CT1: Got frame 66 from mainQueue
+1572371050548.28 | VS: Put frame 66 from stream into mainQueue (mainQueue size: 0)
+1572371050575.95 | CT2: Put frame 66 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050582.53 | DF2: Imshowed frame 66 
+1572371050596.26 | DF1: Got frame 66 from xyDoneQueue
+1572371050617.51 | DF2: Imshowed frame 66 
+1572371050654.47 | DF1: Got frame 66 from xyDoneQueue
+1572371050680.24 | VS: Put frame 67 from stream into mainQueue (mainQueue size: 1)
+1572371050684.50 | CT1: Got frame 67 from mainQueue
+1572371050690.76 | DF2: Imshowed frame 67 
+1572371050693.81 | DF1: Got frame 67 from xyDoneQueue
+1572371050696.84 | DF2: Imshowed frame 67 
+1572371050713.15 | DF1: Got frame 67 from xyDoneQueue
+1572371050715.31 | CT2: Put frame 67 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050730.45 | DF2: Imshowed frame 67 
+1572371050752.53 | DF1: Got frame 67 from xyDoneQueue
+1572371050774.60 | DF2: Imshowed frame 67 
+1572371050793.21 | DF1: Got frame 67 from xyDoneQueue
+1572371050805.95 | VS: Put frame 68 from stream into mainQueue (mainQueue size: 1)
+1572371050806.67 | CT1: Got frame 68 from mainQueue
+1572371050815.45 | DF2: Imshowed frame 68 
+1572371050817.95 | DF1: Got frame 68 from xyDoneQueue
+1572371050823.87 | DF2: Imshowed frame 68 
+1572371050826.14 | DF1: Got frame 68 from xyDoneQueue
+1572371050830.12 | DF2: Imshowed frame 68 
+1572371050831.74 | CT2: Put frame 68 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050839.87 | DF1: Got frame 68 from xyDoneQueue
+1572371050855.71 | DF2: Imshowed frame 68 
+1572371050876.31 | DF1: Got frame 68 from xyDoneQueue
+1572371050921.92 | VS: Put frame 69 from stream into mainQueue (mainQueue size: 1)
+1572371050925.23 | CT1: Got frame 69 from mainQueue
+1572371050933.01 | DF2: Imshowed frame 69 
+1572371050942.29 | DF1: Got frame 69 from xyDoneQueue
+1572371050946.09 | CT2: Put frame 69 to xyDoneQueue (xyDoneQueue size: 0)
+1572371050962.93 | DF2: Imshowed frame 69 
+1572371050979.12 | DF1: Got frame 69 from xyDoneQueue
+1572371051035.53 | DF2: Imshowed frame 69 
+1572371051060.82 | VS: Put frame 70 from stream into mainQueue (mainQueue size: 1)
+1572371051061.82 | CT1: Got frame 70 from mainQueue
+1572371051077.27 | CT2: Put frame 70 to xyDoneQueue (xyDoneQueue size: 0)
+1572371051104.85 | DF1: Got frame 70 from xyDoneQueue
+1572371051128.28 | DF2: Imshowed frame 70 
+1572371051144.80 | DF1: Got frame 70 from xyDoneQueue
+1572371051193.49 | DF2: Imshowed frame 70 
+1572371051226.36 | DF1: Got frame 70 from xyDoneQueue
+1572371051226.07 | VS: Put frame 71 from stream into mainQueue (mainQueue size: 1)
+1572371051227.25 | CT1: Got frame 71 from mainQueue
+1572371051257.80 | CT2: Put frame 71 to xyDoneQueue (xyDoneQueue size: 0)
+1572371051273.96 | DF2: Imshowed frame 71 
+1572371051289.83 | DF1: Got frame 71 from xyDoneQueue
+1572371051344.56 | DF2: Imshowed frame 71 
+1572371051345.73 | VS: Put frame 72 from stream into mainQueue (mainQueue size: 1)
+1572371051346.56 | CT1: Got frame 72 from mainQueue
+1572371051361.69 | CT2: Put frame 72 to xyDoneQueue (xyDoneQueue size: 0)
+1572371051400.03 | DF1: Got frame 72 from xyDoneQueue
