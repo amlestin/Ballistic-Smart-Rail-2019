@@ -10,6 +10,7 @@ class CurrentFrame:
         self.timeStamp = 0
         self.xOffset = 0
         self.yOffset = 0
+        self.contours = 0
 
 class PiVideoStream:
     def __init__(self, q=None):

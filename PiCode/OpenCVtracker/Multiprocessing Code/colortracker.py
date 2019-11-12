@@ -20,9 +20,9 @@ class ColorTracker:
         self.cnts = (0,)
         self.xOffset = 0
         self.yOffset = 0
-        self.xyDoneQueue = Queue()  # put processed frames in here for the next object (HUD/serial) to use
+        # self.xyDoneQueue = Queue()  # put processed frames in here for the next object (HUD/serial) to use
         self.currentFrame = None
-        self.mainQueue = q1 # mainQueue from shared memory space
+        self.mainQueue = q1  # mainQueue from shared memory space
         self.xyDoneQueue = q2
 
     # def start(self):
@@ -56,9 +56,7 @@ class ColorTracker:
                 # only proceed if at least one contour was found
                 if len(self.cnts) > 0:
                     # #print("Contours found")
-                    # find the largest contour in the mask, then use
-                    # it to compute the minimum enclosing circle and
-                    # centroid
+                    # find the largest contour in the mask, then use it to compute the minimum enclosing circle and centroid
                     c = max(self.cnts, key=cv2.contourArea)
                     ((x, y), radius) = cv2.minEnclosingCircle(c)
                     M = cv2.moments(c)
@@ -71,10 +69,11 @@ class ColorTracker:
                 # arduino.write(offsetStr.encode("{:.3f},{:.3f},{}".format(self.xOffset, self.yOffset, getTrackingStatus))) #need to implement this elsewhere
                 else:
                     self.cnts = None
+                self.currentFrame.contours = self.cnts  # attach contour data to frame
                 if not self.xyDoneQueue.full():
                     self.xyDoneQueue.put(self.currentFrame, block=True)  # Block is true so it will wait for other thread/process to finish
-                    # print("CT2: {:.2f} Put frame {} to xyDoneQueue (xyDoneQueue size: {})".format((time.time() *
-                    # 1000), self.currentFrame.name, self.xyDoneQueue.qsize()))
+                    print("CT2: {:.2f} Put frame {} to xyDoneQueue (xyDoneQueue size: {})".format((time.time() *
+                    1000), self.currentFrame.name, self.xyDoneQueue.qsize()))
                 else:  # xyDoneQueue is full
                     self.xyDoneQueue.get()  # remove the oldest frame to make room for the new frame
                     self.xyDoneQueue.put(self.currentFrame, block=True)
