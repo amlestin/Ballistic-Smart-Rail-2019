@@ -14,7 +14,7 @@ resLength = 240
 
 class ColorTracker:
 
-    def __init__(self, q1=None, q2=None):
+    def __init__(self, q1=None, q2=None, file=None):
         # instance vars
         self.stopped = False
         self.cnts = (0,)
@@ -24,6 +24,7 @@ class ColorTracker:
         self.currentFrame = None
         self.mainQueue = q1  # mainQueue from shared memory space
         self.xyDoneQueue = q2
+        self.file = file
 
     # def start(self):
     #     self.p = Process(target=self.update, args=())
@@ -36,7 +37,7 @@ class ColorTracker:
             if not self.mainQueue.empty():
                 # time1 = time.time()
                 self.currentFrame = self.mainQueue.get()
-                #print("CT1: {:.2f} Got frame {} from mainQueue".format((time.time() * 1000), self.currentFrame.name))
+                self.file.write("CT1: {:.2f} Got frame {} from mainQueue\n".format((time.time() * 1000), self.currentFrame.name))
                 # blur frame, and convert it to the HSV color space
                 blurred = cv2.GaussianBlur(self.currentFrame.frame, (11, 11), 0)
                 hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
@@ -72,14 +73,13 @@ class ColorTracker:
                 self.currentFrame.contours = self.cnts  # attach contour data to frame
                 if not self.xyDoneQueue.full():
                     self.xyDoneQueue.put(self.currentFrame, block=True)  # Block is true so it will wait for other thread/process to finish
-                    print("CT2: {:.2f} Put frame {} to xyDoneQueue (xyDoneQueue size: {})".format((time.time() *
+                    self.file.write("CT2: {:.2f} Put frame {} to xyDoneQueue (xyDoneQueue size: {})\n".format((time.time() *
                     1000), self.currentFrame.name, self.xyDoneQueue.qsize()))
                 else:  # xyDoneQueue is full
                     self.xyDoneQueue.get()  # remove the oldest frame to make room for the new frame
                     self.xyDoneQueue.put(self.currentFrame, block=True)
-                    # print( "CT2: {:.2f} xyDoneQueue full. Deleted oldest then put frame {} to xyDoneQueue (
-                    # xyDoneQueue size: {})".format((time.time() * 1000), self.currentFrame.name,
-                    # self.xyDoneQueue.qsize()))
+                    self.file.write( "CT2: {:.2f} xyDoneQueue full. Deleted oldest then put frame {} to xyDoneQueue \n"
+                                     "xyDoneQueue size: {}".format((time.time() * 1000), self.currentFrame.name, self.xyDoneQueue.qsize()))
             else:
                 pass
                 #print("CT: {:.2f} mainQueue empty".format((time.time() * 1000)))

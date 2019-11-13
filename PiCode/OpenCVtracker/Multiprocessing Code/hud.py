@@ -1,14 +1,16 @@
 import cv2
 import imutils
 from multiprocessing import Process, Queue
+import time
 
 class Hud:
-	def __init__(self, res, q1=None, q2=None):
+	def __init__(self, res, q1=None, q2=None, file=None):
 		self.res = res
 		self.xyDoneQueue = q1
 		self.hudDoneQueue = q2
 		self.currentFrame = None
 		self.stopped = False  # indicates if thread should be stopped
+		self.file = file
 
 	# def start(self):
 	# 	t.daemon = True
@@ -19,6 +21,7 @@ class Hud:
 		while not self.stopped:
 			if not self.xyDoneQueue.empty():
 				self.currentFrame = self.xyDoneQueue.get()
+				# print("HUD1: {:.2f} Got frame {} from xyDoneQueue".format((time.time() * 1000), self.currentFrame.name))
 				try:
 					# only proceed if at least one contour was found
 					# print('Contours found: {}'.format(self.currentFrame.contours))
@@ -53,6 +56,10 @@ class Hud:
 				if not self.hudDoneQueue.full():
 					self.hudDoneQueue.put(self.currentFrame,
 										 block=True)  # Block is true so it will wait for other thread/process to finish
+					# print("HUD2: {:.2f} Put frame {} to hudDoneQueue (hudDoneQueue size: {})".format((time.time() *
+					# 																			   1000),
+					# 																			  self.currentFrame.name,
+					# 																			  self.hudDoneQueue.qsize()))
 				else:  # hudDoneQueue is full
 					self.hudDoneQueue.get()  # remove the oldest frame to make room for the new frame
 					self.hudDoneQueue.put(self.currentFrame, block=True)
