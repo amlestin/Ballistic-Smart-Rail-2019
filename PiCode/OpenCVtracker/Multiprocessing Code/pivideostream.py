@@ -12,11 +12,13 @@ class CurrentFrame:
         self.yOffset = 0
         self.contours = 0
 
+
 class PiVideoStream:
-    def __init__(self, q=None):
+    def __init__(self, q=None, file1=None):
         self.mainQueue = q  # pull mainQueue from shared memory
         self.stopped = False
         self.time1 = time.time() * 1000
+        self.file1 = file1
 
     # def start(self):
     #     # start the thread to read frames from the video stream
@@ -38,19 +40,18 @@ class PiVideoStream:
             frame = CurrentFrame()  # instantiate new CurrentFrame object for each frame
             frame.frame = f.array
             frame.timeStamp = (time.time() * 1000)
-            # print("VS1: {:.2f} Got a frame from stream.".format(frame.timeStamp))
+            self.file1.write("VS1: {:.2f} Got a frame from stream.\n".format(frame.timeStamp))
             self.rawCapture.truncate(0)
             frame.name = i
             i = i + 1
             if not self.mainQueue.full():
                 self.mainQueue.put(frame)
-                # print("VS2: {:.2f} Put frame {} from stream into mainQueue (mainQueue size: {})".format(
-                    # frame.timeStamp, frame.name, self.mainQueue.qsize()))
+                self.file1.write("VS2: {:.2f} Put frame {} from stream into mainQueue (mainQueue size: {})\n".format(
+                    frame.timeStamp, frame.name, self.mainQueue.qsize()))
             else:
-                # print("VS3: {:.2f} mainQueue full. Deleted oldest then put frame {} (mainQueue size: {})".format(
-                    # frame.timeStamp, frame.name, self.mainQueue.qsize()))
+                self.file1.write("VS3: {:.2f} mainQueue full. Deleted oldest then put frame {} (mainQueue size: {})\n".format(
+                    frame.timeStamp, frame.name, self.mainQueue.qsize()))
                 self.mainQueue.get()
-
                 self.mainQueue.put(frame)
             # if the thread indicator variable is set, stop the thread and resource camera resources
             if self.stopped:
