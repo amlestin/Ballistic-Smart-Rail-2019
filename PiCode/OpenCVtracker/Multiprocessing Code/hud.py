@@ -4,14 +4,15 @@ from multiprocessing import Process, Queue
 import time
 
 class Hud:
-	def __init__(self, res, q1=None, q2=None, file1=None):
+	def __init__(self, res, q1=None, q2=None, file3=None, hud_done=None):
 		self.res = res
 		self.xyDoneQueue = q1
 		self.hudDoneQueue = q2
 		self.currentFrame = None
 		self.stopped = False  # indicates if thread should be stopped
-		self.file1 = file1
+		self.file3 = file3
 		self.done = False
+		self.hud_done = hud_done
 
 	# def start(self):
 	# 	t.daemon = True
@@ -22,7 +23,8 @@ class Hud:
 		while not self.stopped:
 			if not self.xyDoneQueue.empty():
 				self.currentFrame = self.xyDoneQueue.get()
-				self.file1.write("HUD1: {:.2f} Got frame {} from xyDoneQueue\n".format((time.time() * 1000), self.currentFrame.name))
+				# print("HUD1: {:.2f} Got frame {} from xyDoneQueue\n".format((time.time() * 1000), self.currentFrame.name))
+				self.file3.write("HUD1: {:.2f} Got frame {} from xyDoneQueue\n".format((time.time() * 1000), self.currentFrame.name))
 				# only proceed if at least one contour was found
 				# print('Contours found: {}'.format(self.currentFrame.contours))
 				if len(self.currentFrame.contours) > 0:
@@ -51,13 +53,23 @@ class Hud:
 				if not self.hudDoneQueue.full():
 					self.hudDoneQueue.put(self.currentFrame,
 										 block=True)  # Block is true so it will wait for other thread/process to finish
-					self.file1.write("HUD2: {:.2f} Put frame {} to hudDoneQueue (hudDoneQueue size: {})\n".format((time.time() *
+					self.file3.write("HUD2: {:.2f} Put frame {} to hudDoneQueue (hudDoneQueue size: {})\n".format((time.time() *
 																								   1000),
 																								  self.currentFrame.name,
 																								  self.hudDoneQueue.qsize()))
+					# print("HUD2: {:.2f} Put frame {} to hudDoneQueue (hudDoneQueue size: {})\n".format((time.time() *
+					# 																				  1000),
+					# 																				 self.currentFrame.name,
+					# 																				 self.hudDoneQueue.qsize()))
+					if not self.hud_done.is_set():
+						self.hud_done.set()
 				else:  # hudDoneQueue is full
 					self.hudDoneQueue.get()  # remove the oldest frame to make room for the new frame
 					self.hudDoneQueue.put(self.currentFrame, block=True)
+					if not self.hud_done.is_set():
+						self.hud_done.set()
+
+
 
 	def stop(self):
 		self.stopped = True

@@ -11,6 +11,7 @@ class CurrentFrame:
         self.xOffset = 0
         self.yOffset = 0
         self.contours = 0
+        self.worker = ''
 
 
 class PiVideoStream:
@@ -41,6 +42,7 @@ class PiVideoStream:
             frame.frame = f.array
             frame.timeStamp = (time.time() * 1000)
             self.file1.write("VS1: {:.2f} Got a frame from stream.\n".format(frame.timeStamp))
+            # print("VS1: {:.2f} Got a frame from stream.\n".format(frame.timeStamp))
             self.rawCapture.truncate(0)
             frame.name = i
             i = i + 1
@@ -48,6 +50,8 @@ class PiVideoStream:
                 self.mainQueue.put(frame)
                 self.file1.write("VS2: {:.2f} Put frame {} from stream into mainQueue (mainQueue size: {})\n".format(
                     frame.timeStamp, frame.name, self.mainQueue.qsize()))
+                # print("VS2: {:.2f} Put frame {} from stream into mainQueue (mainQueue size: {})\n".format(
+                #     frame.timeStamp, frame.name, self.mainQueue.qsize()))
             else:
                 self.file1.write("VS3: {:.2f} mainQueue full. Deleted oldest then put frame {} (mainQueue size: {})\n".format(
                     frame.timeStamp, frame.name, self.mainQueue.qsize()))
