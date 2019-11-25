@@ -104,17 +104,17 @@ def main():
 
     else:
         print('Terminating processes')
-        vsP1.terminate()
-        trackerP1.terminate()
-        hudP1.terminate()
-        resizeP1.terminate()
-        displayP1.terminate()
         file1.close()
         file2.close()
         file3.close()
         file4.close()
         file4B.close()
-        file5.close()
+        vsP1.terminate()
+        trackerP1.terminate()
+        hudP1.terminate()
+        resizeP1.terminate()
+        resizeP2.terminate()
+        displayP1.terminate()
 
 if __name__ == '__main__':
     main()
