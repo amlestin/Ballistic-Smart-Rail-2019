@@ -32,35 +32,39 @@ class DisplayFrame:
                     self.file5.write("currentFrame.name:{} = i = {}\n".format(self.currentFrame.name, i))
                     cv2.imshow('Video Preview', self.currentFrame.frame)
                     key = cv2.waitKey(1) & 0xFF
+                    failed = 0
                     self.file5.write("DF2: {:.2f} Imshowed frame {} \n".format((time.time() * 1000),
                                                                                self.currentFrame.name))
                     i += 1
-                    while j != i:  # I'm essentially using j like a "new frame displayed" event
-                        j = i
-                        if len(standbyList) != 0:  # if standbyList isn't empty
-                            z = 0
-                            for x in standbyList:
-                                self.file5.write("Checking standbyList[{}], frame {} in standbyList\n".format(z, x.name))
-                                if int(x.name) == i:
-                                    self.file5.write("x.name = i (({} = {}))\n".format(x.name, i))
-                                    cv2.imshow('Video Preview', x.frame)
-                                    key = cv2.waitKey(1) & 0xFF
-                                    self.file5.write("DF2: {:.2f} Imshowed frame {} \n".format((time.time() * 1000),
-                                                                                               x.name))
-                                    standbyList.remove(x)
-                                    i += 1
-                                    self.file5.write("i+=1: i={}\n".format(i))
-                                    break
-                                z += 1
                 else:
                     standbyList.append(self.currentFrame)
                     failed += 1
-                    self.file5.write("no. failed++\n")
+                    self.file5.write("no. failed++ (failed={})\n".format(failed))
                     self.file5.write("Placed frame {} in standbyList\n".format(self.currentFrame.name))
                     if failed >= 4:
-                        i = int(self.currentFrame.name)  # reset frame index (sorry this isn't more object oriented) :P
+                        i = int(self.currentFrame.name)+2  # reset frame index (sorry this isn't more object oriented) :P
                         self.file5.write("i = {}\n".format(i))
+                        standbyList.clear()
                         failed = 0  # reset failure counter
+
+                while j != i:  # I'm essentially using j like a "new frame displayed" event
+                    j = i
+                    if len(standbyList) != 0:  # if standbyList isn't empty
+                        z = 0  # used for tracking place in standbyList
+                        for x in standbyList:
+                            self.file5.write("Checking standbyList[{}], frame {} in standbyList\n".format(z, x.name))
+                            if int(x.name) == i:
+                                self.file5.write("x.name = i (({} = {}))\n".format(x.name, i))
+                                cv2.imshow('Video Preview', x.frame)
+                                key = cv2.waitKey(1) & 0xFF
+                                failed = 0
+                                self.file5.write("DF2: {:.2f} Imshowed frame {} \n".format((time.time() * 1000),
+                                                                                           x.name))
+                                standbyList.remove(x)
+                                i += 1
+                                self.file5.write("i+=1: i={}\n".format(i))
+                                break
+                            z += 1
 
             # else:
             # 	#print("DF: {:.2f} resizeDoneQueue empty".format(time.time()*1000))
